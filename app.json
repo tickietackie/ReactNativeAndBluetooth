@@ -1,0 +1,12 @@
+{
+  "name": "bl_library",
+  "displayName": "bl_library",
+  "expo": {
+    "name": "bl_library",
+    "slug": "bl_library",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
