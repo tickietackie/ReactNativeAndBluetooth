@@ -8,5 +8,8 @@
     "assetBundlePatterns": [
       "**/*"
     ]
+  },
+  "infoPlist": {
+    "NSBluetoothAlwaysUsageDescription": "YOUR_DESCRIPTION_WHY_THIS_APP_REQUIRES_BLUETOOTH_ACCESS"
   }
 }
