@@ -14,8 +14,13 @@
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		96905EF65AED1B983A6B3ABC /* libPods-bllibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-bllibrary.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		C277712F2688DFDE00392DD8 /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C277712D2688DFDE00392DD8 /* Counter.swift */; };
+		C27771332688E01A00392DD8 /* Counter.m in Sources */ = {isa = PBXBuildFile; fileRef = C27771312688E01A00392DD8 /* Counter.m */; };
+		C27771362688E0AD00392DD8 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27771352688E0AD00392DD8 /* CalendarManager.swift */; };
+		C27771382688E0DB00392DD8 /* CalendarManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C27771372688E0DB00392DD8 /* CalendarManagerBridge.m */; };
+		C277713E2688E3C400392DD8 /* Torch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C277713D2688E3C400392DD8 /* Torch.swift */; };
+		C27771402688E41D00392DD8 /* Torch.m in Sources */ = {isa = PBXBuildFile; fileRef = C277713F2688E41D00392DD8 /* Torch.m */; };
 		C2AB572F265A5E93005AA6C7 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2AB572E265A5E93005AA6C7 /* ExternalAccessory.framework */; };
-		C2AB5732265A706E005AA6C7 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AB5731265A706E005AA6C7 /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,10 +37,15 @@
 		7A4D352CD337FB3A3BF06240 /* Pods-bllibrary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bllibrary.release.xcconfig"; path = "Target Support Files/Pods-bllibrary/Pods-bllibrary.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = bllibrary/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		C277712D2688DFDE00392DD8 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Counter.swift; path = /Users/kaikuklok/Desktop/CAS/Studienarbeit/Projects/bl_library/ios/Counter.swift; sourceTree = "<absolute>"; };
+		C27771312688E01A00392DD8 /* Counter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counter.m; sourceTree = "<group>"; };
+		C27771342688E03A00392DD8 /* bllibrary-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bllibrary-Bridging-Header.h"; sourceTree = "<group>"; };
+		C27771352688E0AD00392DD8 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		C27771372688E0DB00392DD8 /* CalendarManagerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarManagerBridge.m; sourceTree = "<group>"; };
+		C277713D2688E3C400392DD8 /* Torch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torch.swift; sourceTree = "<group>"; };
+		C277713F2688E41D00392DD8 /* Torch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Torch.m; sourceTree = "<group>"; };
 		C2AB572D265A5E93005AA6C7 /* bllibrary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = bllibrary.entitlements; path = bllibrary/bllibrary.entitlements; sourceTree = "<group>"; };
 		C2AB572E265A5E93005AA6C7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
-		C2AB5730265A706E005AA6C7 /* bllibrary-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bllibrary-Bridging-Header.h"; sourceTree = "<group>"; };
-		C2AB5731265A706E005AA6C7 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -56,6 +66,9 @@
 		13B07FAE1A68108700A75B9A /* bllibrary */ = {
 			isa = PBXGroup;
 			children = (
+				C27771342688E03A00392DD8 /* bllibrary-Bridging-Header.h */,
+				C27771312688E01A00392DD8 /* Counter.m */,
+				C277712D2688DFDE00392DD8 /* Counter.swift */,
 				C2AB572D265A5E93005AA6C7 /* bllibrary.entitlements */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -66,6 +79,10 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				C27771352688E0AD00392DD8 /* CalendarManager.swift */,
+				C27771372688E0DB00392DD8 /* CalendarManagerBridge.m */,
+				C277713D2688E3C400392DD8 /* Torch.swift */,
+				C277713F2688E41D00392DD8 /* Torch.m */,
 			);
 			name = bllibrary;
 			sourceTree = "<group>";
@@ -91,13 +108,11 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				C2AB5731265A706E005AA6C7 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* bllibrary */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
-				C2AB5730265A706E005AA6C7 /* bllibrary-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -281,9 +296,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C277712F2688DFDE00392DD8 /* Counter.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				C2AB5732265A706E005AA6C7 /* File.swift in Sources */,
+				C27771402688E41D00392DD8 /* Torch.m in Sources */,
+				C27771332688E01A00392DD8 /* Counter.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				C277713E2688E3C400392DD8 /* Torch.swift in Sources */,
+				C27771382688E0DB00392DD8 /* CalendarManagerBridge.m in Sources */,
+				C27771362688E0AD00392DD8 /* CalendarManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

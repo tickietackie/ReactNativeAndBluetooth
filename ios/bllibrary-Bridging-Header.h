@@ -8,5 +8,7 @@
 #ifndef bllibrary_Bridging_Header_h
 #define bllibrary_Bridging_Header_h
 
+#import <React/RCTBridgeModule.h>
+#import <React/RCTViewManager.h>
 
 #endif /* bllibrary_Bridging_Header_h */

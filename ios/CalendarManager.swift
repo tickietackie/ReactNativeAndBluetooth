@@ -1,8 +1,20 @@
 //
 //  CalendarManager.swift
-//  bllibrary
+//  SwiftBridge
 //
-//  Created by Kai Kuklok on 27.06.21.
+//  Created by Michael Schwartz on 12/11/15.
+//  Copyright © 2015 Facebook. All rights reserved.
 //
 
 import Foundation
+
+// CalendarManager.swift
+
+@objc(CalendarManager)
+class CalendarManager: NSObject {
+  
+  @objc func addEvent(name: String, location: String, date: NSNumber) -> Void {
+    // Date is ready to use!
+  }
+  
+}

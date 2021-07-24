@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:bllibrary-Bridging-Header.h">
-   </FileRef>
-   <FileRef
       location = "group:bllibrary.xcodeproj">
    </FileRef>
    <FileRef

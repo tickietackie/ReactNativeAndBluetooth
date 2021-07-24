@@ -5,10 +5,9 @@
 //  Created by Kai Kuklok on 27.06.21.
 //
 
-#import "React/RCTBridgeModule.h"
+// #import "React/RCTBridgeModule.h"
 
 import Foundation
-
 
 @objc(Counter)
 class Counter: NSObject {
