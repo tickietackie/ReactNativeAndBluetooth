@@ -1,0 +1,52 @@
+{
+  //"extends": "./node_modules/gts/",
+  "settings": {
+    "import/core-modules": [
+      "@expo/vector-icons"
+    ]
+  },
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "airbnb"
+    //"plugin:jest/recommended"
+    //"expo"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly",
+    "__CLIENT__": true,
+    "__SERVER__": true,
+    "__DEV__": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react","react-native","@typescript-eslint"],
+  "rules": {
+    "react-native/no-unused-styles": 2,
+    "react-native/split-platform-components": 2,
+    "react-native/no-inline-styles": 2,
+    "react-native/no-color-literals": 2,
+    "react-native/no-raw-text": 2,
+    "react-native/no-single-element-style-arrays": 2,
+    "react/prop-types": ["error", { "ignore": ["navigation"] }], // ignore navigation PropTypes
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": ["**/*.test.ts", "**/*.test.tsx"] }
+    ], //
+    "max-len": ["error", { "code": 120 }],
+    "no-use-before-define": ["error", { "variables": false }],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
+  }
+}
