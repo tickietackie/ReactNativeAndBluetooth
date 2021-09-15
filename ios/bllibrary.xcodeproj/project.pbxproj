@@ -20,6 +20,8 @@
 		C27771382688E0DB00392DD8 /* CalendarManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C27771372688E0DB00392DD8 /* CalendarManagerBridge.m */; };
 		C277713E2688E3C400392DD8 /* Torch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C277713D2688E3C400392DD8 /* Torch.swift */; };
 		C27771402688E41D00392DD8 /* Torch.m in Sources */ = {isa = PBXBuildFile; fileRef = C277713F2688E41D00392DD8 /* Torch.m */; };
+		C277E22726DE4C3700A1E457 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C277E22626DE4C3700A1E457 /* BluetoothManager.swift */; };
+		C277E22926DE4C7A00A1E457 /* BluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C277E22826DE4C7A00A1E457 /* BluetoothManager.m */; };
 		C2AB572F265A5E93005AA6C7 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2AB572E265A5E93005AA6C7 /* ExternalAccessory.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,8 @@
 		C27771372688E0DB00392DD8 /* CalendarManagerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarManagerBridge.m; sourceTree = "<group>"; };
 		C277713D2688E3C400392DD8 /* Torch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torch.swift; sourceTree = "<group>"; };
 		C277713F2688E41D00392DD8 /* Torch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Torch.m; sourceTree = "<group>"; };
+		C277E22626DE4C3700A1E457 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		C277E22826DE4C7A00A1E457 /* BluetoothManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothManager.m; sourceTree = "<group>"; };
 		C2AB572D265A5E93005AA6C7 /* bllibrary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = bllibrary.entitlements; path = bllibrary/bllibrary.entitlements; sourceTree = "<group>"; };
 		C2AB572E265A5E93005AA6C7 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -83,6 +87,8 @@
 				C27771372688E0DB00392DD8 /* CalendarManagerBridge.m */,
 				C277713D2688E3C400392DD8 /* Torch.swift */,
 				C277713F2688E41D00392DD8 /* Torch.m */,
+				C277E22626DE4C3700A1E457 /* BluetoothManager.swift */,
+				C277E22826DE4C7A00A1E457 /* BluetoothManager.m */,
 			);
 			name = bllibrary;
 			sourceTree = "<group>";
@@ -300,9 +306,11 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				C27771402688E41D00392DD8 /* Torch.m in Sources */,
 				C27771332688E01A00392DD8 /* Counter.m in Sources */,
+				C277E22926DE4C7A00A1E457 /* BluetoothManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C277713E2688E3C400392DD8 /* Torch.swift in Sources */,
 				C27771382688E0DB00392DD8 /* CalendarManagerBridge.m in Sources */,
+				C277E22726DE4C3700A1E457 /* BluetoothManager.swift in Sources */,
 				C27771362688E0AD00392DD8 /* CalendarManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
