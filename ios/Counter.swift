@@ -12,13 +12,15 @@ import Foundation
 @objc(Counter)
 class Counter: NSObject {
   
+  @objc static func requiresMainQueueSetup() -> Bool {return true}
+  
   @objc
     func constantsToExport() -> [AnyHashable : Any]! {
       return ["initialCount": 0]
     }
   
   private var count = 0
-    @objc
+  @objc
     func increment() {
       count += 1
       print("count is \(count)")

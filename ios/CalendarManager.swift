@@ -13,6 +13,8 @@ import Foundation
 @objc(CalendarManager)
 class CalendarManager: NSObject {
   
+  @objc static func requiresMainQueueSetup() -> Bool {return true}
+  
   @objc func addEvent(name: String, location: String, date: NSNumber) -> Void {
     // Date is ready to use!
   }
