@@ -25,12 +25,10 @@ export const manager = new BleManager();
 
 const Item = ({ device }: Device) => (
   <Pressable
-    onPress={() => { }}
+    onPress={() => {}}
     style={({ pressed }) => [
       {
-        backgroundColor: pressed
-          ? '#7799FF'
-          : '#66CCFF',
+        backgroundColor: pressed ? '#7799FF' : '#66CCFF',
       },
       styles.item,
     ]}
@@ -63,17 +61,13 @@ const BluetoothTest = () => {
   }, [manager]);
 
   const getPermissionOnAndroid = async () => {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'You need to allow location services to run this ...',
-        message:
-          'This is mandatory',
-        buttonNeutral: 'Ask Me Later',
-        buttonNegative: "I don't care",
-        buttonPositive: 'Ok',
-      },
-    );
+    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+      title: 'You need to allow location services to run this ...',
+      message: 'This is mandatory',
+      buttonNeutral: 'Ask Me Later',
+      buttonNegative: "I don't care",
+      buttonPositive: 'Ok',
+    });
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       console.log('Permission granted');
       setPermissionGranted(true);
@@ -130,9 +124,7 @@ const BluetoothTest = () => {
     });
   };
 
-  const renderItem = ({ item }: Device) => (
-    <Item device={item} />
-  );
+  const renderItem = ({ item }: Device) => <Item device={item} />;
 
   return (
     <View style={styles.container}>
@@ -140,24 +132,25 @@ const BluetoothTest = () => {
         <SafeAreaView style={styles.container}>
           <View style={styles.buttonContainer}>
             <Button onPress={() => scanAndConnect()} title="Start scan" />
-            <Button onPress={() => { setName(''); manager.stopDeviceScan(); }} title="Stop scan" />
+            <Button
+              onPress={() => {
+                setName('');
+                manager.stopDeviceScan();
+              }}
+              title="Stop scan"
+            />
             <Button onPress={() => clear()} title="Clear list" />
           </View>
 
           <Text>{`Last found device: ${name}`}</Text>
 
-          <FlatList
-            data={list}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-
-            extraData={name}
-          />
+          <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} extraData={name} />
         </SafeAreaView>
       ) : (
-        <Text>You need to provide me location permissions. This does not work otherwise. Now you have to reload ...</Text>
+        <Text>
+          You need to provide me location permissions. This does not work otherwise. Now you have to reload ...
+        </Text>
       )}
-
     </View>
   );
 };
