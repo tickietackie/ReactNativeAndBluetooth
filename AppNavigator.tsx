@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './screens/home/Home';
+import Home from './screens/home/HomeNative';
 import DeviceDetails from './screens/device/DeviceDetails';
 
 function DetailsScreen() {
