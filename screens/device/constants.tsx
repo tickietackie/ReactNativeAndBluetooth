@@ -8,7 +8,8 @@ https://github.com/scipag/btle-sniffer/blob/master/src/btlesniffer/hci_constants
 
 const HCI_MAX_EVENT_SIZE = 260;
 
-enum Status {
+/*
+const Status = {
   Success = 0x00,
   UnknownHciCommand = 0x01,
   UnknownConnectionIdentifier = 0x02,
@@ -70,15 +71,15 @@ enum Status {
   ConnectionEstablishFailure = 0x3e,
   MacConnectionFailed = 0x3f,
   CoarseClockAdjustmentRejected = 0x40,
-}
+}; */
 
-enum PacketType {
-  Invalid = 0x00,
-  Command = 0x01,
-  Async = 0x02,
-  Sync = 0x03,
-  Event = 0x04,
-}
+const packetType = {
+  0x00: 'Invalid',
+  0x01: 'Command',
+  0x02: 'Async',
+  0x03: 'Sync',
+  0x04: 'Event',
+};
 
 /* class Event(enum.IntEnum):
     """
@@ -98,20 +99,20 @@ class LeEvent(enum.IntEnum):
     LeAdvertisingReport = 0x02
 */
 
-enum GapProfile {
-  Broadcaster = 0x01,
-  Observer = 0x02,
-  Peripheral = 0x04,
-  Central = 0x08,
-}
+const gapProfile = {
+  Broadcaster: 0x01,
+  Observer: 0x02,
+  Peripheral: 0x04,
+  Central: 0x08,
+};
 
-enum DiscoveryType {
-  ConnectableUndirectedAdvertising = 0x00,
-  ConnectableDirectedAdvertising = 0x01,
-  ScannableUndirectedAdvertising = 0x02,
-  NonConnectableUndirectedAdvertising = 0x03,
-  ScanResponse = 0x04,
-}
+const discoveryType = {
+  ConnectableUndirectedAdvertising: 0x00,
+  ConnectableDirectedAdvertising: 0x01,
+  ScannableUndirectedAdvertising: 0x02,
+  NonConnectableUndirectedAdvertising: 0x03,
+  ScanResponse: 0x04,
+};
 
 /* class AddressType(enum.IntEnum):
     """
