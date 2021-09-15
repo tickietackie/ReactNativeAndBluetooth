@@ -17,7 +17,6 @@ import {
   PermissionsAndroid,
   Platform,
   Alert,
-  NativeModules,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -25,21 +24,13 @@ import { useNavigation } from '@react-navigation/native';
 import { BleManager, Device } from 'react-native-ble-plx';
 import { decode, encode } from 'base-64';
 
-const { Torch } = NativeModules;
-
 export const manager: BleManager = new BleManager();
 
 const Home = () => {
-  const [isScanning, setIsScanning] = useState(false);
-  const peripherals = new Map();
   const [list, setList] = useState<Device[] | []>([]);
   const [name, setName] = useState('test');
   const [permissionGranted, setPermissionGranted] = useState(true);
   const navigation = useNavigation();
-  // console.log("counter:")
-  // console.log(NativeModules.Counter)
-  // console.log(Torch)
-  // NativeModules.Counter.increment()
 
   const connectToDevice = (device: Device) => {
     setName('');
@@ -123,15 +114,15 @@ const Home = () => {
       // Check if it is a device you are looking for based on advertisement data
       // or other criteria.
       console.log(device?.name, device?.localName, device?.id);
-      const name = device && device.name ? device.name : '';
+      const deviceName = device && device.name ? device.name : '';
       const id = device && device.id;
       // const localName = device && device.localName ? device.localName : "";
-      const alreadyInList = list.find((data) => data.id == id);
+      const alreadyInList = list.find((data) => data.id === id);
       if (!alreadyInList && device) {
         const newList: Device[] = list;
         newList.push(device);
         setList(newList);
-        setName(name);
+        setName(deviceName);
       }
 
       /* if (device?.localName === 'LED') {
@@ -168,12 +159,14 @@ const Home = () => {
         </SafeAreaView>
       ) : (
         <Text>
-          You need to provide me location permissions. This does not work otherwise. Now you have to reload ...
+          You need to provide me location permissions. This does not work otherwise. Now you have to reload the app ...
         </Text>
       )}
     </View>
   );
 };
+
+const shadowColor = 'black';
 
 const styles = StyleSheet.create({
   container: {
@@ -192,7 +185,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 10,
-    shadowColor: '#000000',
+    shadowColor,
     shadowOffset: {
       width: 1,
       height: 2,
