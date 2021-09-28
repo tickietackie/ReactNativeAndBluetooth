@@ -25,8 +25,6 @@ import { useNavigation } from '@react-navigation/native';
 import { decode, encode } from 'base-64';
 import Loading from '../../helpers/IsLoading';
 
-const { Torch, Counter } = NativeModules;
-
 type Device = {
   id: String;
   name: String;
@@ -56,7 +54,7 @@ const HomeNative = () => {
         styles.item,
       ]}
     >
-      <Text style={styles.title}>{device.name}</Text>
+      <Text style={styles.title}>{device.name ? device.name : 'Unnamed'}</Text>
       <Text style={styles.title}>{device.id}</Text>
     </Pressable>
   );
@@ -93,18 +91,22 @@ const HomeNative = () => {
   };
 
   const scanAndConnect = () => {
-    NativeModules.BluetoothManager.start();
-    setIsLoading(true);
-    setTimeout(() => {
-      NativeModules.BluetoothManager.getPeripherals((peripherals: any) => {
-        console.log('Got peripherals');
-        console.log(peripherals);
-        setList(peripherals);
+    try {
+      NativeModules.BluetoothManager.start();
+      setIsLoading(true);
+      setTimeout(() => {
+        NativeModules.BluetoothManager.getPeripherals((peripherals: any) => {
+          console.log('Got peripherals');
+          console.log(peripherals);
+          setList(peripherals);
 
-        setIsLoading(false);
-        NativeModules.BluetoothManager.stop();
-      });
-    }, 5000);
+          setIsLoading(false);
+          NativeModules.BluetoothManager.stop();
+        });
+      }, 7000);
+    } catch (error: any) {
+      console.log(`Failed to execute native scan. ${error.message}`);
+    }
   };
 
   const renderItem = ({ item }: Device) => <Item device={item} />;

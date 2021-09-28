@@ -2,6 +2,8 @@ require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+pod 'MultiplatformBleAdapter', :git => 'https://github.com/below/MultiPlatformBleAdapter', :tag => '0.1.9'
+
 platform :ios, '11.0'
 
 target 'bllibrary' do
