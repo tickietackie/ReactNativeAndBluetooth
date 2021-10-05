@@ -3,7 +3,8 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "web": "expo start --web",
+    "web": "cd web && webpack-dev-server",
+    "build:web": "cd web && webpack",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -15,15 +16,17 @@
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "@types/base-64": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
     "base-64": "^1.0.0",
     "expo": "^42.0.0",
+    "expo-constants": "^11.0.1",
     "expo-splash-screen": "~0.11.2",
     "expo-updates": "~0.8.2",
     "prettier": "^2.3.2",
     "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react-dom": "^17.0.2",
     "react-native": "0.63.4",
     "react-native-ble-plx": "^2.0.2",
     "react-native-gesture-handler": "~1.10.2",
@@ -31,12 +34,14 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-unimodules": "~0.14.5",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "^0.17.5"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "add": "^2.0.6",
+    "babel-plugin-react-native-web": "^0.17.5",
     "babel-preset-expo": "8.3.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -46,9 +51,16 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.11.0",
+    "html-webpack-plugin": "^5.3.2",
     "jest-expo": "^42.0.0",
     "prettier-eslint": "^13.0.0",
-    "typescript": "~4.0.0"
+    "ts-loader": "^9.2.6",
+    "typescript": "~4.0.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.57.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.1",
+    "yarn": "^1.22.15"
   },
   "jest": {
     "preset": "react-native"

@@ -15,6 +15,7 @@ import {
   Pressable,
   Button,
   PermissionsAndroid,
+  ListRenderItemInfo,
   Platform,
   Alert,
   NativeModules,
@@ -23,14 +24,14 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import { decode, encode } from 'base-64';
-import Loading from '../../helpers/IsLoading';
+import Loading from '../../../helpers/IsLoading';
 
 type Device = {
   id: String;
   name: String;
 };
 
-const HomeNative = () => {
+const NativeScanner = () => {
   const [list, setList] = useState<Device[] | []>([]);
   const [name, setName] = useState('test');
   const [permissionGranted, setPermissionGranted] = useState(true);
@@ -44,20 +45,23 @@ const HomeNative = () => {
   // console.log(Torch);
   NativeModules.Counter.increment();
 
-  const Item = ({ device }: { device: Device }) => (
-    <Pressable
-      onPress={() => {}}
-      style={({ pressed }) => [
-        {
-          backgroundColor: pressed ? '#7799FF' : '#66CCFF',
-        },
-        styles.item,
-      ]}
-    >
-      <Text style={styles.title}>{device.name ? device.name : 'Unnamed'}</Text>
-      <Text style={styles.title}>{device.id}</Text>
-    </Pressable>
-  );
+  const Item = ({ device }: { device: Device }) => {
+    console.log(device);
+    return (
+      <Pressable
+        onPress={() => {}}
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? '#7799FF' : '#66CCFF',
+          },
+          styles.item,
+        ]}
+      >
+        <Text style={styles.title}>{device.name ? device.name : 'Unnamed'}</Text>
+        <Text style={styles.title}>{device.id}</Text>
+      </Pressable>
+    );
+  };
 
   const getPermissionOnAndroid = async () => {
     const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
@@ -109,6 +113,7 @@ const HomeNative = () => {
     }
   };
 
+  // const renderItem = ({ item }: Device) => <Item device={item} />;
   const renderItem = ({ item }: { item: Device }) => <Item device={item} />;
 
   if (isLoading === true) {
@@ -134,7 +139,12 @@ const HomeNative = () => {
 
           <Text>{`Last found device: ${name}`}</Text>
 
-          <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} extraData={name} />
+          <FlatList
+            data={list}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            extraData={name}
+          />
         </SafeAreaView>
       ) : (
         <Text>
@@ -180,4 +190,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeNative;
+export default NativeScanner;

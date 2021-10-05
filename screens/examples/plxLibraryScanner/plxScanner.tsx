@@ -23,7 +23,7 @@ import { BleManager, Device } from 'react-native-ble-plx';
 
 export const manager = new BleManager();
 
-const Item = ({ device }: Device) => (
+const Item = ({ device }: { device: Device }) => (
   <Pressable
     onPress={() => {}}
     style={({ pressed }) => [
@@ -39,7 +39,7 @@ const Item = ({ device }: Device) => (
   </Pressable>
 );
 
-const BluetoothTest = () => {
+const ScannerPlx = () => {
   const [isScanning, setIsScanning] = useState(false);
   const peripherals = new Map();
   const [list, setList] = useState<Device[] | []>([]);
@@ -52,7 +52,7 @@ const BluetoothTest = () => {
       console.log('onStateChange');
       const subscription = manager.onStateChange((state) => {
         if (state === 'PoweredOn') {
-          this && scanAndConnect();
+          // this && scanAndConnect();
           subscription.remove();
         }
       }, true);
@@ -115,16 +115,16 @@ const BluetoothTest = () => {
       }
 
       /* if (device?.localName === 'LED') {
-        setName(name);
-        // Stop scanning as it's not necessary if you are scanning for one device.
-        manager.stopDeviceScan();
+         setName(name);
+         // Stop scanning as it's not necessary if you are scanning for one device.
+         manager.stopDeviceScan();
 
-        // Proceed with connection.
-      } */
+         // Proceed with connection.
+       } */
     });
   };
 
-  const renderItem = ({ item }: Device) => <Item device={item} />;
+  const renderItem = ({ item }: { item: Device }) => <Item device={item} />;
 
   return (
     <View style={styles.container}>
@@ -188,4 +188,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BluetoothTest;
+export default ScannerPlx;

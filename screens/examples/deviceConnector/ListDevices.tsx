@@ -17,36 +17,34 @@ import {
   PermissionsAndroid,
   Platform,
   Alert,
-  NativeModules,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { BleManager, Device } from 'react-native-ble-plx';
 import { decode, encode } from 'base-64';
-import Loading from '../../helpers/IsLoading';
 
-type Device = {
-  id: String;
-  name: String;
-};
+export const manager: BleManager = new BleManager();
 
-const HomeNative = () => {
+const DeviceConnector = () => {
   const [list, setList] = useState<Device[] | []>([]);
   const [name, setName] = useState('test');
   const [permissionGranted, setPermissionGranted] = useState(true);
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = React.useState(false);
 
-  NativeModules.Counter.getCount((value: number) => {
-    console.log('counter:');
-    console.log(value);
-  });
-  // console.log(Torch);
-  NativeModules.Counter.increment();
+  const connectToDevice = (device: Device) => {
+    setName('');
+    manager.stopDeviceScan();
+
+    navigation.navigate('DeviceDetails', {
+      manager,
+      device,
+    });
+  };
 
   const Item = ({ device }: { device: Device }) => (
     <Pressable
-      onPress={() => {}}
+      onPress={() => connectToDevice(device)}
       style={({ pressed }) => [
         {
           backgroundColor: pressed ? '#7799FF' : '#66CCFF',
@@ -54,10 +52,24 @@ const HomeNative = () => {
         styles.item,
       ]}
     >
-      <Text style={styles.title}>{device.name ? device.name : 'Unnamed'}</Text>
+      <Text style={styles.title}>{device.name ? device.name : device.localName}</Text>
+      <Text style={styles.title}>{device.rssi}</Text>
       <Text style={styles.title}>{device.id}</Text>
     </Pressable>
   );
+
+  React.useEffect(() => {
+    console.log('use effect');
+    manager.onStateChange((state) => {
+      const subscription = manager.onStateChange((state) => {
+        if (state === 'PoweredOn') {
+          // this && scanAndConnect();
+          subscription.remove();
+        }
+      }, true);
+      return () => subscription.remove();
+    });
+  }, [manager]);
 
   const getPermissionOnAndroid = async () => {
     const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
@@ -86,35 +98,44 @@ const HomeNative = () => {
 
   const clear = () => {
     setList([]);
-    NativeModules.BluetoothManager.clear();
+    manager.stopDeviceScan();
     setName('');
   };
 
   const scanAndConnect = () => {
-    try {
-      NativeModules.BluetoothManager.start();
-      setIsLoading(true);
-      setTimeout(() => {
-        NativeModules.BluetoothManager.getPeripherals((peripherals: any) => {
-          console.log('Got peripherals');
-          console.log(peripherals);
-          setList(peripherals);
+    console.log('scanAndConnect');
+    manager.startDeviceScan(null, null, (error, device) => {
+      if (error) {
+        // Handle error (scanning will be stopped automatically)
+        console.error(error);
+        return;
+      }
 
-          setIsLoading(false);
-          NativeModules.BluetoothManager.stop();
-        });
-      }, 7000);
-    } catch (error: any) {
-      console.log(`Failed to execute native scan. ${error.message}`);
-    }
+      // Check if it is a device you are looking for based on advertisement data
+      // or other criteria.
+      console.log(device?.name, device?.localName, device?.id);
+      const deviceName = device && device.name ? device.name : '';
+      const id = device && device.id;
+      // const localName = device && device.localName ? device.localName : "";
+      const alreadyInList = list.find((data) => data.id === id);
+      if (!alreadyInList && device) {
+        const newList: Device[] = list;
+        newList.push(device);
+        setList(newList);
+        setName(deviceName);
+      }
+
+      /* if (device?.localName === 'LED') {
+               setName(name);
+               // Stop scanning as it's not necessary if you are scanning for one device.
+               manager.stopDeviceScan();
+
+               // Proceed with connection.
+             } */
+    });
   };
 
   const renderItem = ({ item }: { item: Device }) => <Item device={item} />;
-
-  if (isLoading === true) {
-    // return loading screen, if data is loading
-    return <Loading />;
-  }
 
   return (
     <View style={styles.container}>
@@ -125,7 +146,7 @@ const HomeNative = () => {
             <Button
               onPress={() => {
                 setName('');
-                NativeModules.BluetoothManager.stop();
+                manager.stopDeviceScan();
               }}
               title="Stop scan"
             />
@@ -138,7 +159,7 @@ const HomeNative = () => {
         </SafeAreaView>
       ) : (
         <Text>
-          You need to provide me location permissions. This does not work otherwise. Now you have to reload ...
+          You need to provide me location permissions. This does not work otherwise. Now you have to reload the app ...
         </Text>
       )}
     </View>
@@ -180,4 +201,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeNative;
+export default DeviceConnector;

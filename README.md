@@ -1,6 +1,6 @@
 # ReactNativeAndBluetooth
-Shows different ideas how bluetooth can potentially used with React Native
 
+Shows different ideas how bluetooth can potentially used with React Native
 
 ## Using react-native-ble-plx from Polidea
 
@@ -13,7 +13,7 @@ I assume you were like me new to ejecting from expo and will thefore guide you t
 Firstly ejecting is necessary as the react-native-ble-plx library currently does not have expo support.
 Furthermore you will get some nice advantages from ejecting, e.g. InAppPurchases support.
 
-To get some starting information please read through the expo docs where you find detailed information about the bare workflow: 
+To get some starting information please read through the expo docs where you find detailed information about the bare workflow:
 https://docs.expo.io/bare/exploring-bare-workflow/
 
 We will create a completely new project:
@@ -32,7 +32,7 @@ yarn add @react-navigation/stack
 
 #install the react native doctor to check if everything is ok with your environment
 npm install -g @react-native-community/cli doctor
-#run the tool 
+#run the tool
 npx @react-native-community/cli doctor
 
 # install bluetooth library
@@ -48,12 +48,12 @@ cd ios && pod install
 ### IOS
 
 To use the library on iOS we need to do the following steps:
+
 1. Open Xcode and open the workspace folder which you can find in your_project/ios/your_project.workspace
 2. Create a single Swift file and name it however you want
 3. When you're getting asked about creating a bridging file --> hit yes (if you missed that, delete the Swift file and create a new one)
 4. If you want to use ble in the background of your app --> Click on your project --> signing & capabilities --> add cap --> background -> tick ble
 5. If your using an M1 Mac go to "Build settings" --> choose all in the top left --> go to architectures --> exclude from ios simulator arm64 (this is needed to let the build succeed) more on this here: https://github.com/facebook/react-native/issues/29984
-
 
 ## Working simple example
 
@@ -80,12 +80,12 @@ The following code scans for bluetooth devices nearby and displays them in a lis
    Platform,
    Alert
  } from 'react-native';
- 
+
  import { BleManager, Device } from 'react-native-ble-plx';
- 
+
  export const manager = new BleManager();
- 
- const Item = ({ device }: Device) => (
+
+ const Item = ({ device }: { device: Device }) => (
    <Pressable onPress={() => {return}} style={({ pressed }) => [
      {
        backgroundColor: pressed
@@ -99,8 +99,8 @@ The following code scans for bluetooth devices nearby and displays them in a lis
      <Text style={styles.title}>{device.id}</Text>
    </Pressable>
  );
- 
- 
+
+
  const BluetoothTest = () => {
    const [isScanning, setIsScanning] = useState(false);
    const peripherals = new Map();
@@ -114,7 +114,7 @@ The following code scans for bluetooth devices nearby and displays them in a lis
       console.log("onStateChange")
        const subscription = manager.onStateChange((state) => {
          if (state === 'PoweredOn') {
-           this && scanAndConnect();
+           //this && scanAndConnect();
            subscription.remove();
          }
        }, true);
@@ -151,13 +151,13 @@ The following code scans for bluetooth devices nearby and displays them in a lis
       })();
     }
    },[])
- 
+
    const clear = () => {
      setList([]);
      manager.stopDeviceScan();
      setName("");
    }
- 
+
    const scanAndConnect = () => {
     console.log("scanAndConnect")
      manager.startDeviceScan(null, null, (error, device) => {
@@ -166,7 +166,7 @@ The following code scans for bluetooth devices nearby and displays them in a lis
          console.error  (error)
          return
        }
- 
+
        // Check if it is a device you are looking for based on advertisement data
        // or other criteria.
        console.log(device?.name, device?.id)
@@ -179,23 +179,23 @@ The following code scans for bluetooth devices nearby and displays them in a lis
          newList.push(device);
          setList(newList);
          setName(name);
-       } 
- 
- 
+       }
+
+
        /*if (device?.localName === 'LED') {
          setName(name);
          // Stop scanning as it's not necessary if you are scanning for one device.
          manager.stopDeviceScan();
-   
+
          // Proceed with connection.
        }*/
      });
    }
- 
+
    const renderItem = ({ item }: Device) => (
      <Item device={item} />
    );
- 
+
    return (
      <View style={styles.container}>
        {permissionGranted ? (
@@ -223,7 +223,7 @@ The following code scans for bluetooth devices nearby and displays them in a lis
      </View>
    );
  };
- 
+
  const styles = StyleSheet.create({
    container: {
      marginTop: "2%",
@@ -256,7 +256,7 @@ The following code scans for bluetooth devices nearby and displays them in a lis
      fontSize: 12,
    },
  });
- 
+
  export default BluetoothTest;
- 
+
 ```
