@@ -395,9 +395,13 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
 
               <Text style={styles.text}>{`Name: ${device.name}`}</Text>
               <Text style={styles.text}>{`Local name: ${device.localName}`}</Text>
-              <Text style={styles.text}>{`manufacturer data: ${decode(device.manufacturerData)}`}</Text>
+              <Text style={styles.text}>
+                {`manufacturer data: ${decode(
+                  device.manufacturerData ? device.manufacturerData : '',
+                )}`}
+              </Text>
               <Text style={styles.text}>{`rssi: ${device.rssi}`}</Text>
-              <Text style={styles.text}>{`service data: ${device.serviceData.toString()}`}</Text>
+              <Text style={styles.text}>{`service data: ${device.serviceData}`}</Text>
               <Text style={styles.text}>{`service uuids: ${device.serviceUUIDs?.join(', ')}`}</Text>
               <Text style={styles.text}>{`Tx power level: ${device.txPowerLevel}`}</Text>
               <Text style={styles.text}>{`MTU: ${device.mtu}`}</Text>

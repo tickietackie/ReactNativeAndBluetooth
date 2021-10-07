@@ -22,7 +22,6 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import { BleManager, Device } from 'react-native-ble-plx';
-import { decode, encode } from 'base-64';
 
 export const manager: BleManager = new BleManager();
 
@@ -58,7 +57,7 @@ const DeviceConnector = () => {
     </Pressable>
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('use effect');
     manager.onStateChange((state) => {
       const subscription = manager.onStateChange((state) => {
@@ -155,7 +154,12 @@ const DeviceConnector = () => {
 
           <Text>{`Last found device: ${name}`}</Text>
 
-          <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} extraData={name} />
+          <FlatList
+            data={list}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            extraData={name}
+          />
         </SafeAreaView>
       ) : (
         <Text>

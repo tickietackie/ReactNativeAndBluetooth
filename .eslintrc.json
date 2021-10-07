@@ -1,22 +1,12 @@
 {
-  //"extends": "./node_modules/gts/",
-  "settings": {
-    "import/core-modules": [
-      "@expo/vector-icons"
-    ]
-  },
+    //"extends": "./node_modules/gts/",
+
   "root": true,
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "es2021": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "airbnb"
-    //"plugin:jest/recommended"
-    //"expo"
-  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly",
@@ -29,9 +19,24 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
+    "project": ["tsconfig.json"],
+    "ecmaVersion": 2019,
     "sourceType": "module"
   },
+  //"extends": "./node_modules/gts/",
+  "settings": {
+    "import/core-modules": [
+      "@expo/vector-icons"
+    ]
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:import/typescript",
+    "plugin:jest/recommended"
+  ],
   "plugins": ["react","react-native","@typescript-eslint"],
   "rules": {
     "react-native/no-unused-styles": 2,
@@ -45,8 +50,19 @@
       "error",
       { "devDependencies": ["**/*.test.ts", "**/*.test.tsx"] }
     ], //
-    "max-len": ["error", { "code": 120 }],
-    "no-use-before-define": ["error", { "variables": false }],
-    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
-  }
+    "@typescript-eslint/quotes": ["error", "double"],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/comma-dangle": ["error", "never"]
+    //"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
+  },
+  "overrides": [
+    {
+        "files": ["*.ts", "*.tsx"],
+        "rules": {
+            "no-undef": "off"
+        }
+    }
+  ]
 }

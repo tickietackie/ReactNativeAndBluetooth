@@ -12,7 +12,7 @@ import {
 } from 'react-native-ble-plx';
 import { decode, encode } from 'base-64';
 import { ScrollView } from 'react-native-gesture-handler';
-import { uuidToString } from './constants';
+import { uuidToString } from '../../helpers/constants';
 
 const { Torch } = NativeModules;
 

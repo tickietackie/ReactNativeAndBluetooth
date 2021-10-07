@@ -1838,7 +1838,7 @@ const uuidToString = (uuid: string): string | null => {
     throw new Error('Expected the UUID string to be 36 characters long.');
   }
 
-  const uuidText = uuid in ALL_128BIT_UUIDS ? ALL_128BIT_UUIDS[uuid] : '';
+  const uuidText = uuid in ALL_128BIT_UUIDS ? ALL_128BIT_UUIDS[uuid as keyof typeof ALL_128BIT_UUIDS] : '';
   if (uuidText) {
     return uuidText;
   }
@@ -1847,7 +1847,7 @@ const uuidToString = (uuid: string): string | null => {
     const uuidService = parseInt(`0x${uuid.substring(0, 8)}`, 16);
     console.log(parseInt(`0x${uuid.substring(0, 8)}`, 16));
     // const uuidServiceText = uuidService in ALL_128BIT_UUIDS ? ALL_16BIT_UUIDS[uuidService] : '';
-    const uuidServiceText = ALL_16BIT_UUIDS[uuidService];
+    const uuidServiceText = ALL_16BIT_UUIDS[uuidService as keyof typeof ALL_16BIT_UUIDS];
     console.log(`uuid_text_16 for ${uuidService}: ${uuidServiceText}`);
     if (uuidServiceText) {
       return uuidServiceText;

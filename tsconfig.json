@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "esnext",
     "module": "commonjs",
     "lib": [
@@ -7,8 +8,8 @@
       "esnext",
       "es6"
     ],
-    "jsx": "react-native",
-    "noEmit": true,
+    "jsx": "react",
+    "noEmit": false,
     "resolveJsonModule": true,
     "strict": true,
     "moduleResolution": "node",
@@ -20,7 +21,9 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    //"noUnusedLocals": true /* Report errors on unused locals. */,
+    //"noUnusedParameters": true /* Report errors on unused parameters. */,
   },
   "exclude": [
     "node_modules",

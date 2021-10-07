@@ -44,7 +44,7 @@ const NativeScanner = () => {
   // console.log(Torch);
   NativeModules.Counter.increment();
 
-  const Item = ({ device }: Device) => (
+  const Item = ({ device }: { device: Device }) => (
     <Pressable
       onPress={() => {}}
       style={({ pressed }) => [

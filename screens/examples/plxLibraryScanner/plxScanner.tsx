@@ -144,7 +144,12 @@ const ScannerPlx = () => {
 
           <Text>{`Last found device: ${name}`}</Text>
 
-          <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} extraData={name} />
+          <FlatList
+            data={list}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            extraData={name}
+          />
         </SafeAreaView>
       ) : (
         <Text>

@@ -29,34 +29,31 @@ const connectToDevice = (device: Device) => {
   manager.stopDeviceScan(); // stop scanning
   device
     .connect()
-    .then((device) => {
+    .then((conntectedDevice) => {
       console.log('connected');
-      return device.discoverAllServicesAndCharacteristics();
+      return conntectedDevice.discoverAllServicesAndCharacteristics();
     })
-    .then((device) => {
+    .then((conntectedDevice) => {
       console.log('return services');
-      return device.services();
+      return conntectedDevice.services();
     })
     .then((services) => {
-      console.log(services);
+      // console.log(services);
       console.log('return characteristics');
       return services[0].characteristics();
     })
-    .then((characteristics) => {
-      console.log(characteristics);
-      return { readChar: characteristics[0].read(), chars: characteristics };
-    })
+    .then((characteristics) => ({ readChar: characteristics[0].read(), chars: characteristics }))
     .then((characteristicList) => {
       console.log('read value');
       console.log(characteristicList.chars[0].value);
-      console.log(decode(characteristicList.chars[0].value));
+      console.log(decode(characteristicList.chars[0].value ? characteristicList.chars[0].value : ''));
       console.log('write value');
-      if (!characteristicList.chars[0].value || decode(characteristicList.chars[0].value) == 0) {
+      if (!characteristicList.chars[0].value || parseInt(decode(characteristicList.chars[0].value), 10) === 0) {
         console.log('write 1');
-        characteristicList.chars[0].writeWithResponse(encode(1));
+        characteristicList.chars[0].writeWithResponse(encode('1'));
       } else {
         console.log('write 0');
-        characteristicList.chars[0].writeWithResponse(encode(0));
+        characteristicList.chars[0].writeWithResponse(encode('0'));
       }
     })
     .catch((error) => {
