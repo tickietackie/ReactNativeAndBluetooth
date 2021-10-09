@@ -1,6 +1,6 @@
 # ReactNativeAndBluetooth
 
-Shows different ideas how bluetooth can potentially used with React Native
+Shows different ideas how bluetooth can potentially be used with React Native
 
 ## Using react-native-ble-plx from Polidea
 
