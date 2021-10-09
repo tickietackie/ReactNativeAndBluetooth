@@ -21,7 +21,7 @@ import {
 
 import { decode, encode } from "base-64";
 
-import Loading from "../../../helpers/IsLoading";
+import Loading from "../../helpers/IsLoading";
 
 type Device = {
   id: String;

@@ -20,7 +20,7 @@ const babelLoaderConfiguration = {
         path.resolve(rootDir, "src"),
         path.resolve(rootDir, "node_modules"),
         path.resolve(rootDir, "node_modules/react-native-uncompiled"),
-        path.resolve(rootDir, "node_modules/react-native-sdk")
+        path.resolve(rootDir, "node_modules/react-native-sdk"),
     ],
     use: {
         loader: "babel-loader",
@@ -29,7 +29,7 @@ const babelLoaderConfiguration = {
             // The 'react-native' preset is recommended to match React Native's packager
             // presets: ['module:metro-react-native-babel-preset'],
             // presets: ['react-native'],
-            presets: ["@babel/preset-flow"]
+            presets: ["@babel/preset-flow"],
             // presets: [require.resolve("babel-preset-react-native")]
             // Re-write paths to import only the modules needed by the app
             // plugins: ['react-native-web',],
@@ -39,8 +39,8 @@ const babelLoaderConfiguration = {
             //   // needed to support async/await
             //   '@babel/plugin-transform-runtime'
             // ]
-        }
-    }
+        },
+    },
 };
 
 // This is needed for webpack to import static images in JavaScript files.
@@ -49,19 +49,19 @@ const imageLoaderConfiguration = {
     use: {
         loader: "url-loader",
         options: {
-            name: "[name].[ext]"
-        }
-    }
+            name: "[name].[ext]",
+        },
+    },
 };
 
 module.exports = {
     mode: webpackEnv,
     entry: {
-        app: path.join(rootDir, "./index.web.ts")
+        app: path.join(rootDir, "./index.web.ts"),
     },
     output: {
-        path: path.resolve(rootDir, "dist"),
-        filename: "app-[hash].bundle.js"
+        path: path.resolve(`${rootDir}/web-build`, "dist"),
+        filename: "app-[hash].bundle.js",
     },
     devtool: "source-map",
     module: {
@@ -69,16 +69,15 @@ module.exports = {
             imageLoaderConfiguration,
             babelLoaderConfiguration,
             {
-                test: /\.(ts|tsx)?$/, loader: "ts-loader", exclude: /node_modules/
-
-            }
-        ]
+                test: /\.(ts|tsx)?$/, loader: "ts-loader", exclude: /node_modules/,
+            },
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, "./index.html")
+            template: path.join(__dirname, "./index.html"),
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
     ],
     resolve: {
         extensions: [
@@ -89,12 +88,12 @@ module.exports = {
             ".web.jsx",
             ".web.js",
             ".jsx",
-            ".js"
+            ".js",
         ], // read files in fillowing order
-        alias: { "react-native$": "react-native-web" }
+        alias: { "react-native$": "react-native-web" },
     },
     devServer: {
-        https: true
-    }
+        https: true,
+    },
 
 };

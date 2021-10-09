@@ -16,12 +16,12 @@ import {
   Button,
   PermissionsAndroid,
   Platform,
-  Alert,
+  Alert
 } from "react-native";
 
 import { BleManager, Device } from "react-native-ble-plx";
 import { decode, encode } from "base-64";
-import Loading from "../../../helpers/IsLoading";
+import Loading from "../../helpers/IsLoading";
 
 const getBleManager = () => {
   try {
@@ -55,22 +55,18 @@ const connectToDevice = (device: Device) => {
     })
     .then((characteristics) => ({
       readChar: characteristics[0].read(),
-      chars: characteristics,
+      chars: characteristics
     }))
     .then((characteristicList) => {
       console.log("read value");
       console.log(characteristicList.chars[0].value);
       console.log(
-        decode(
-          characteristicList.chars[0].value
-            ? characteristicList.chars[0].value
-            : "",
-        ),
+        decode(characteristicList.chars[0].value ? characteristicList.chars[0].value : "")
       );
       console.log("write value");
       if (
-        !characteristicList.chars[0].value
-        || parseInt(decode(characteristicList.chars[0].value), 10) === 0
+        !characteristicList.chars[0].value ||
+        parseInt(decode(characteristicList.chars[0].value), 10) === 0
       ) {
         console.log("write 1");
         characteristicList.chars[0].writeWithResponse(encode("1"));
@@ -99,9 +95,9 @@ const ToggleArduinoLed = () => {
 
   React.useEffect(() => {
     console.log("use effect");
-    manager?.onStateChange((state:any) => {
+    manager?.onStateChange((state: any) => {
       console.log("onStateChange");
-      const subscription = manager?.onStateChange((state:any) => {
+      const subscription = manager?.onStateChange((state: any) => {
         if (state === "PoweredOn") {
           // this && scanAndConnect();
           subscription.remove();
@@ -119,8 +115,8 @@ const ToggleArduinoLed = () => {
         message: "This is mandatory",
         buttonNeutral: "Ask Me Later",
         buttonNegative: "I don't care",
-        buttonPositive: "Ok",
-      },
+        buttonPositive: "Ok"
+      }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       console.log("Permission granted");
@@ -212,8 +208,8 @@ const ToggleArduinoLed = () => {
         </SafeAreaView>
       ) : (
         <Text>
-          You need to provide me location permissions. This does not work
-          otherwise. Now you have to reload ...
+          You need to provide me location permissions. This does not work otherwise. Now you have to
+          reload ...
         </Text>
       )}
     </View>
@@ -224,22 +220,22 @@ const styles = StyleSheet.create({
   container: {
     marginTop: "2%",
     flex: 1,
-    alignItems: "center",
+    alignItems: "center"
   },
   safeAreaContainer: {
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   foundContainer: {
     alignSelf: "center",
     justifyContent: "center",
-    minHeight: "50%",
+    minHeight: "50%"
   },
   buttonContainer: {
     flexDirection: "row",
     marginBottom: "1%",
     justifyContent: "space-evenly",
-    width: "100%",
+    width: "100%"
   },
   item: {
     padding: 10,
@@ -248,17 +244,17 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       width: 1,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.75,
     shadowRadius: 2,
     elevation: 5,
     borderRadius: 5,
-    minWidth: "80%",
+    minWidth: "80%"
   },
   title: {
-    fontSize: 12,
-  },
+    fontSize: 12
+  }
 });
 
 export default ToggleArduinoLed;
