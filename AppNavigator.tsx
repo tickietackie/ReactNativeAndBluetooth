@@ -10,7 +10,7 @@ import ScannerPlx from "./src/examples/plxLibraryScanner/plxScanner";
 import DeviceConnector from "./src/examples/deviceConnector/ListDevices";
 import DeviceDetails from "./src/examples/deviceConnector/DeviceDetails";
 
-import WebScanner from "./src/examples/webScanner/Scanner";
+import WebScanner from "./src/examples/webScanner/WebScanner";
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
