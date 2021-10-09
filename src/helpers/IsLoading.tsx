@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import BackgroundContainer from './BackgroundContainer';
+import React from "react";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
+import BackgroundContainer from "./BackgroundContainer";
 
 const Loading = function Loading() {
   return (
@@ -15,8 +15,8 @@ const Loading = function Loading() {
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-  },
+    justifyContent: "center"
+  }
 });
 
 export default Loading;
