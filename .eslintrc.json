@@ -53,9 +53,8 @@
     "@typescript-eslint/quotes": ["error", "double"],
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-use-before-define": ["warn"],
     "@typescript-eslint/comma-dangle": ["error", "never"]
-    //"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
   },
   "overrides": [
     {
