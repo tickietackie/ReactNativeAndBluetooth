@@ -92,6 +92,9 @@ module.exports = {
             ".js"
         ], // read files in fillowing order
         alias: { "react-native$": "react-native-web" }
+    },
+    devServer: {
+        https: true
     }
 
 };
