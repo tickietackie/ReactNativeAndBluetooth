@@ -5,7 +5,7 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,21 +16,31 @@ import {
   Button,
   PermissionsAndroid,
   Platform,
-  Alert,
-} from 'react-native';
+  Alert
+} from "react-native";
 
-import { BleManager, Device } from 'react-native-ble-plx';
+import { BleManager, Device } from "react-native-ble-plx";
 
-export const manager = new BleManager();
+const getBleManager = () => {
+  try {
+    const manager = new BleManager();
+    return manager;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+const manager = getBleManager();
 
 const Item = ({ device }: { device: Device }) => (
   <Pressable
     onPress={() => {}}
     style={({ pressed }) => [
       {
-        backgroundColor: pressed ? '#7799FF' : '#66CCFF',
+        backgroundColor: pressed ? "#7799FF" : "#66CCFF"
       },
-      styles.item,
+      styles.item
     ]}
   >
     <Text style={styles.title}>{device.localName ? device.localName : device.name}</Text>
@@ -43,15 +53,15 @@ const ScannerPlx = () => {
   const [isScanning, setIsScanning] = useState(false);
   const peripherals = new Map();
   const [list, setList] = useState<Device[] | []>([]);
-  const [name, setName] = useState('test');
+  const [name, setName] = useState("test");
   const [permissionGranted, setPermissionGranted] = useState(true);
 
   React.useEffect(() => {
-    console.log('use effect');
-    manager.onStateChange((state) => {
-      console.log('onStateChange');
-      const subscription = manager.onStateChange((state) => {
-        if (state === 'PoweredOn') {
+    console.log("use effect");
+    manager?.onStateChange((state) => {
+      console.log("onStateChange");
+      const subscription = manager?.onStateChange((state) => {
+        if (state === "PoweredOn") {
           // this && scanAndConnect();
           subscription.remove();
         }
@@ -61,24 +71,27 @@ const ScannerPlx = () => {
   }, [manager]);
 
   const getPermissionOnAndroid = async () => {
-    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-      title: 'You need to allow location services to run this ...',
-      message: 'This is mandatory',
-      buttonNeutral: 'Ask Me Later',
-      buttonNegative: "I don't care",
-      buttonPositive: 'Ok',
-    });
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "You need to allow location services to run this ...",
+        message: "This is mandatory",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "I don't care",
+        buttonPositive: "Ok"
+      }
+    );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('Permission granted');
+      console.log("Permission granted");
       setPermissionGranted(true);
     } else {
-      console.log('permission denied');
+      console.log("permission denied");
       setPermissionGranted(false);
     }
   };
 
   React.useEffect(() => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       (async () => {
         await getPermissionOnAndroid();
       })();
@@ -87,13 +100,13 @@ const ScannerPlx = () => {
 
   const clear = () => {
     setList([]);
-    manager.stopDeviceScan();
-    setName('');
+    manager?.stopDeviceScan();
+    setName("");
   };
 
   const scanAndConnect = () => {
-    console.log('scanAndConnect');
-    manager.startDeviceScan(null, null, (error, device) => {
+    console.log("scanAndConnect");
+    manager?.startDeviceScan(null, null, (error, device) => {
       if (error) {
         // Handle error (scanning will be stopped automatically)
         console.error(error);
@@ -103,7 +116,7 @@ const ScannerPlx = () => {
       // Check if it is a device you are looking for based on advertisement data
       // or other criteria.
       console.log(device?.name, device?.id);
-      const name = device && device.name ? device.name : '';
+      const name = device && device.name ? device.name : "";
       const id = device && device.id;
       // const localName = device && device.localName ? device.localName : "";
       const alreadyInList = list.find((data) => data.id == id);
@@ -117,7 +130,7 @@ const ScannerPlx = () => {
       /* if (device?.localName === 'LED') {
          setName(name);
          // Stop scanning as it's not necessary if you are scanning for one device.
-         manager.stopDeviceScan();
+         manager?.stopDeviceScan();
 
          // Proceed with connection.
        } */
@@ -134,8 +147,8 @@ const ScannerPlx = () => {
             <Button onPress={() => scanAndConnect()} title="Start scan" />
             <Button
               onPress={() => {
-                setName('');
-                manager.stopDeviceScan();
+                setName("");
+                manager?.stopDeviceScan();
               }}
               title="Stop scan"
             />
@@ -153,7 +166,8 @@ const ScannerPlx = () => {
         </SafeAreaView>
       ) : (
         <Text>
-          You need to provide me location permissions. This does not work otherwise. Now you have to reload ...
+          You need to provide me location permissions. This does not work otherwise. Now you have to
+          reload ...
         </Text>
       )}
     </View>
@@ -162,35 +176,35 @@ const ScannerPlx = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: '2%',
+    marginTop: "2%",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   buttonContainer: {
-    flexDirection: 'row',
-    marginBottom: '1%',
-    justifyContent: 'space-evenly',
-    width: '100%',
+    flexDirection: "row",
+    marginBottom: "1%",
+    justifyContent: "space-evenly",
+    width: "100%"
   },
   item: {
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 10,
-    shadowColor: '#000000',
+    shadowColor: "#000000",
     shadowOffset: {
       width: 1,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.75,
     shadowRadius: 2,
     elevation: 5,
     borderRadius: 5,
-    minWidth: '80%',
+    minWidth: "80%"
   },
   title: {
-    fontSize: 12,
-  },
+    fontSize: 12
+  }
 });
 
 export default ScannerPlx;

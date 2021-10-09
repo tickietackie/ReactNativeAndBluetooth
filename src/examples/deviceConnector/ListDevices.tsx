@@ -5,7 +5,7 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,28 +16,38 @@ import {
   Button,
   PermissionsAndroid,
   Platform,
-  Alert,
-} from 'react-native';
+  Alert
+} from "react-native";
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
-import { BleManager, Device } from 'react-native-ble-plx';
+import { BleManager, Device } from "react-native-ble-plx";
 
-export const manager: BleManager = new BleManager();
+const getBleManager = () => {
+  try {
+    const manager = new BleManager();
+    return manager;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+const manager = getBleManager();
 
 const DeviceConnector = () => {
   const [list, setList] = useState<Device[] | []>([]);
-  const [name, setName] = useState('test');
+  const [name, setName] = useState("test");
   const [permissionGranted, setPermissionGranted] = useState(true);
   const navigation = useNavigation();
 
   const connectToDevice = (device: Device) => {
-    setName('');
-    manager.stopDeviceScan();
+    setName("");
+    manager?.stopDeviceScan();
 
-    navigation.navigate('DeviceDetails', {
+    navigation.navigate("DeviceDetails", {
       manager,
-      device,
+      device
     });
   };
 
@@ -46,9 +56,9 @@ const DeviceConnector = () => {
       onPress={() => connectToDevice(device)}
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? '#7799FF' : '#66CCFF',
+          backgroundColor: pressed ? "#7799FF" : "#66CCFF"
         },
-        styles.item,
+        styles.item
       ]}
     >
       <Text style={styles.title}>{device.name ? device.name : device.localName}</Text>
@@ -58,10 +68,10 @@ const DeviceConnector = () => {
   );
 
   useEffect(() => {
-    console.log('use effect');
-    manager.onStateChange((state) => {
-      const subscription = manager.onStateChange((state) => {
-        if (state === 'PoweredOn') {
+    console.log("use effect");
+    manager?.onStateChange((state) => {
+      const subscription = manager?.onStateChange((state) => {
+        if (state === "PoweredOn") {
           // this && scanAndConnect();
           subscription.remove();
         }
@@ -71,24 +81,27 @@ const DeviceConnector = () => {
   }, [manager]);
 
   const getPermissionOnAndroid = async () => {
-    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-      title: 'You need to allow location services to run this ...',
-      message: 'This is mandatory',
-      buttonNeutral: 'Ask Me Later',
-      buttonNegative: "I don't care",
-      buttonPositive: 'Ok',
-    });
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "You need to allow location services to run this ...",
+        message: "This is mandatory",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "I don't care",
+        buttonPositive: "Ok"
+      }
+    );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('Permission granted');
+      console.log("Permission granted");
       setPermissionGranted(true);
     } else {
-      console.log('permission denied');
+      console.log("permission denied");
       setPermissionGranted(false);
     }
   };
 
   React.useEffect(() => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       (async () => {
         await getPermissionOnAndroid();
       })();
@@ -97,13 +110,13 @@ const DeviceConnector = () => {
 
   const clear = () => {
     setList([]);
-    manager.stopDeviceScan();
-    setName('');
+    manager?.stopDeviceScan();
+    setName("");
   };
 
   const scanAndConnect = () => {
-    console.log('scanAndConnect');
-    manager.startDeviceScan(null, null, (error, device) => {
+    console.log("scanAndConnect");
+    manager?.startDeviceScan(null, null, (error, device) => {
       if (error) {
         // Handle error (scanning will be stopped automatically)
         console.error(error);
@@ -113,7 +126,7 @@ const DeviceConnector = () => {
       // Check if it is a device you are looking for based on advertisement data
       // or other criteria.
       console.log(device?.name, device?.localName, device?.id);
-      const deviceName = device && device.name ? device.name : '';
+      const deviceName = device && device.name ? device.name : "";
       const id = device && device.id;
       // const localName = device && device.localName ? device.localName : "";
       const alreadyInList = list.find((data) => data.id === id);
@@ -127,7 +140,7 @@ const DeviceConnector = () => {
       /* if (device?.localName === 'LED') {
                setName(name);
                // Stop scanning as it's not necessary if you are scanning for one device.
-               manager.stopDeviceScan();
+               manager?.stopDeviceScan();
 
                // Proceed with connection.
              } */
@@ -144,8 +157,8 @@ const DeviceConnector = () => {
             <Button onPress={() => scanAndConnect()} title="Start scan" />
             <Button
               onPress={() => {
-                setName('');
-                manager.stopDeviceScan();
+                setName("");
+                manager?.stopDeviceScan();
               }}
               title="Stop scan"
             />
@@ -163,27 +176,28 @@ const DeviceConnector = () => {
         </SafeAreaView>
       ) : (
         <Text>
-          You need to provide me location permissions. This does not work otherwise. Now you have to reload the app ...
+          You need to provide me location permissions. This does not work otherwise. Now you have to
+          reload the app ...
         </Text>
       )}
     </View>
   );
 };
 
-const shadowColor = 'black';
+const shadowColor = "black";
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: '2%',
+    marginTop: "2%",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   buttonContainer: {
-    flexDirection: 'row',
-    marginBottom: '1%',
-    justifyContent: 'space-evenly',
-    width: '100%',
+    flexDirection: "row",
+    marginBottom: "1%",
+    justifyContent: "space-evenly",
+    width: "100%"
   },
   item: {
     padding: 10,
@@ -192,17 +206,17 @@ const styles = StyleSheet.create({
     shadowColor,
     shadowOffset: {
       width: 1,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.75,
     shadowRadius: 2,
     elevation: 5,
     borderRadius: 5,
-    minWidth: '80%',
+    minWidth: "80%"
   },
   title: {
-    fontSize: 12,
-  },
+    fontSize: 12
+  }
 });
 
 export default DeviceConnector;

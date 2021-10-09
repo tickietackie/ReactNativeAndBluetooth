@@ -89,7 +89,7 @@ const NativeScanner = () => {
     try {
       const nav: any = navigator;
       if (!nav.bluetooth) {
-        alert("Bluetooth is not supported");
+        alert("Bluetooth is not supported.");
         return;
       }
       nav.bluetooth
@@ -100,9 +100,12 @@ const NativeScanner = () => {
           // Human-readable name of the device.
           console.log(device.name);
           console.log(device.id);
+          alert(`Device name: ${device.name}\rDevice id: ${device.id}`);
+          setIsLoading(false);
         })
         .catch((error: any) => {
-          console.error(error);
+          console.log(error);
+          setIsLoading(false);
         });
       setIsLoading(true);
       setTimeout(() => {
@@ -154,8 +157,8 @@ const NativeScanner = () => {
         </SafeAreaView>
       ) : (
         <Text>
-          You need to provide me location permissions. This does not work otherwise. Now you have to
-          reload ...
+          You need to provide me location permissions. This does not work
+          otherwise. Now you have to reload ...
         </Text>
       )}
     </View>

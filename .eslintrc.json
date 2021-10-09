@@ -39,6 +39,7 @@
   ],
   "plugins": ["react","react-native","@typescript-eslint"],
   "rules": {
+    "prettier/prettier": "error",
     "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
     "react-native/no-inline-styles": 2,
@@ -54,7 +55,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["warn"],
-    "@typescript-eslint/comma-dangle": ["error", "never"]
+    "@typescript-eslint/comma-dangle": ["warn"]
   },
   "overrides": [
     {
