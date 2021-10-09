@@ -1,14 +1,16 @@
-import * as React from 'react';
-import { View, Text, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Home from './screens/home/Home';
+import * as React from "react";
+import { View, Text, Button } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Home from "./src/home/Home";
 
-import NativeScanner from './screens/examples/nativeScanner/NativeScanner';
-import ToggleArduinoLed from './screens/examples/arduinoLed/ToggleArduinoLed';
-import ScannerPlx from './screens/examples/plxLibraryScanner/plxScanner';
-import DeviceConnector from './screens/examples/deviceConnector/ListDevices';
-import DeviceDetails from './screens/examples/deviceConnector/DeviceDetails';
+import NativeScanner from "./src/examples/nativeScanner/NativeScanner";
+import ToggleArduinoLed from "./src/examples/arduinoLed/ToggleArduinoLed";
+import ScannerPlx from "./src/examples/plxLibraryScanner/plxScanner";
+import DeviceConnector from "./src/examples/deviceConnector/ListDevices";
+import DeviceDetails from "./src/examples/deviceConnector/DeviceDetails";
+
+import WebScanner from "./src/examples/webScanner/Scanner";
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -16,11 +18,12 @@ const RootStack = createStackNavigator();
 function MainStackScreen() {
   return (
     <MainStack.Navigator>
-      <MainStack.Screen name="Home" component={Home} options={{ title: 'React Native and BLE' }} />
+      <MainStack.Screen name="Home" component={Home} options={{ title: "React Native and BLE" }} />
       <MainStack.Screen name="ToggleArduinoLed" component={ToggleArduinoLed} />
       <MainStack.Screen name="DeviceScannerPlxLibrary" component={ScannerPlx} />
       <MainStack.Screen name="NativeScanner" component={NativeScanner} />
       <MainStack.Screen name="BleDeviceConnector" component={DeviceConnector} />
+      <MainStack.Screen name="WebScanner" component={WebScanner} />
     </MainStack.Navigator>
   );
 }

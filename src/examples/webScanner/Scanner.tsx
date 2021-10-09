@@ -5,7 +5,7 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,14 +16,13 @@ import {
   Button,
   PermissionsAndroid,
   Platform,
-  Alert,
-  NativeModules,
-} from 'react-native';
+  Alert
+} from "react-native";
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
-import { decode, encode } from 'base-64';
-import Loading from '../../../helpers/IsLoading';
+import { decode, encode } from "base-64";
+import Loading from "../../../helpers/IsLoading";
 
 type Device = {
   id: String;
@@ -32,52 +31,48 @@ type Device = {
 
 const NativeScanner = () => {
   const [list, setList] = useState<Device[] | []>([]);
-  const [name, setName] = useState('test');
+  const [name, setName] = useState("test");
   const [permissionGranted, setPermissionGranted] = useState(true);
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [isLoading, setIsLoading] = React.useState(false);
-
-  NativeModules.Counter.getCount((value: number) => {
-    console.log('counter:');
-    console.log(value);
-  });
-  // console.log(Torch);
-  NativeModules.Counter.increment();
 
   const Item = ({ device }: { device: Device }) => (
     <Pressable
       onPress={() => {}}
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? '#7799FF' : '#66CCFF',
+          backgroundColor: pressed ? "#7799FF" : "#66CCFF"
         },
-        styles.item,
+        styles.item
       ]}
     >
-      <Text style={styles.title}>{device.name ? device.name : 'Unnamed'}</Text>
+      <Text style={styles.title}>{device.name ? device.name : "Unnamed"}</Text>
       <Text style={styles.title}>{device.id}</Text>
     </Pressable>
   );
 
   const getPermissionOnAndroid = async () => {
-    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-      title: 'You need to allow location services to run this ...',
-      message: 'This is mandatory',
-      buttonNeutral: 'Ask Me Later',
-      buttonNegative: "I don't care",
-      buttonPositive: 'Ok',
-    });
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "You need to allow location services to run this ...",
+        message: "This is mandatory",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "I don't care",
+        buttonPositive: "Ok"
+      }
+    );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('Permission granted');
+      console.log("Permission granted");
       setPermissionGranted(true);
     } else {
-      console.log('permission denied');
+      console.log("permission denied");
       setPermissionGranted(false);
     }
   };
 
-  React.useEffect(() => {
-    if (Platform.OS === 'android') {
+  useEffect(() => {
+    if (Platform.OS === "android") {
       (async () => {
         await getPermissionOnAndroid();
       })();
@@ -86,23 +81,39 @@ const NativeScanner = () => {
 
   const clear = () => {
     setList([]);
-    NativeModules.BluetoothManager.clear();
-    setName('');
+    // NativeModules.BluetoothManager.clear();
+    setName("");
   };
 
   const scanAndConnect = () => {
     try {
-      NativeModules.BluetoothManager.start();
+      const nav: any = navigator;
+      if (!nav.bluetooth) {
+        alert("Bluetooth is not supported");
+        return;
+      }
+      nav.bluetooth
+        .requestDevice({
+          acceptAllDevices: true
+        })
+        .then((device: any) => {
+          // Human-readable name of the device.
+          console.log(device.name);
+          console.log(device.id);
+        })
+        .catch((error: any) => {
+          console.error(error);
+        });
       setIsLoading(true);
       setTimeout(() => {
-        NativeModules.BluetoothManager.getPeripherals((peripherals: any) => {
-          console.log('Got peripherals');
+        /* NativeModules.BluetoothManager.getPeripherals((peripherals: any) => {
+          console.log("Got peripherals");
           console.log(peripherals);
           setList(peripherals);
 
           setIsLoading(false);
           NativeModules.BluetoothManager.stop();
-        });
+        }); */
       }, 7000);
     } catch (error: any) {
       console.log(`Failed to execute native scan. ${error.message}`);
@@ -124,8 +135,8 @@ const NativeScanner = () => {
             <Button onPress={() => scanAndConnect()} title="Start scan" />
             <Button
               onPress={() => {
-                setName('');
-                NativeModules.BluetoothManager.stop();
+                setName("");
+                // NativeModules.BluetoothManager.stop();
               }}
               title="Stop scan"
             />
@@ -143,27 +154,28 @@ const NativeScanner = () => {
         </SafeAreaView>
       ) : (
         <Text>
-          You need to provide me location permissions. This does not work otherwise. Now you have to reload ...
+          You need to provide me location permissions. This does not work otherwise. Now you have to
+          reload ...
         </Text>
       )}
     </View>
   );
 };
 
-const shadowColor = 'black';
+const shadowColor = "black";
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: '2%',
+    marginTop: "2%",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   buttonContainer: {
-    flexDirection: 'row',
-    marginBottom: '1%',
-    justifyContent: 'space-evenly',
-    width: '100%',
+    flexDirection: "row",
+    marginBottom: "1%",
+    justifyContent: "space-evenly",
+    width: "100%"
   },
   item: {
     padding: 10,
@@ -172,17 +184,17 @@ const styles = StyleSheet.create({
     shadowColor,
     shadowOffset: {
       width: 1,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.75,
     shadowRadius: 2,
     elevation: 5,
     borderRadius: 5,
-    minWidth: '80%',
+    minWidth: "80%"
   },
   title: {
-    fontSize: 12,
-  },
+    fontSize: 12
+  }
 });
 
 export default NativeScanner;
