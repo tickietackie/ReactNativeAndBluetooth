@@ -17,7 +17,7 @@ import ListDevices from "./ListDevices";
 
 export default function Scanner(): JSX.Element {
   const [list, setList] = useState<UiDevice[]>([]);
-  const [name, setName] = useState("test");
+  const [name, setName] = useState("");
   const [scan, setScan] = useState<any>(null);
 
   const clear = () => {
@@ -63,7 +63,7 @@ export default function Scanner(): JSX.Element {
         (navigator as any).bluetooth.addEventListener("advertisementreceived", (event: any) => {
           const newDevice: UiDevice = {
             id: event.device.id,
-            name: event.device.name,
+            name: event.device.name ? event.device.name : "Unamed",
             txPowerLevel: event.txPower,
             rssi: event.rssi,
             serviceUUIDs: event.uuids

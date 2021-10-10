@@ -6,7 +6,16 @@
  */
 
 import React from "react";
-import { SafeAreaView, StyleSheet, View, Text, FlatList, Pressable, Button } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Pressable,
+  Button,
+  ActivityIndicator
+} from "react-native";
 
 import Device from "../../../types/Bluetooth";
 
@@ -19,6 +28,22 @@ interface IScannerProps {
   permissionGranted: Boolean;
 }
 
+const Item = ({ device }: { device: Device }) => (
+  <Pressable
+    onPress={() => {}}
+    style={({ pressed }) => [
+      {
+        backgroundColor: pressed ? "#7799FF" : "#66CCFF"
+      },
+      styles.item
+    ]}
+  >
+    <Text style={styles.title}>{device.name}</Text>
+    <Text style={styles.title}>{device.rssi}</Text>
+    <Text style={styles.title}>{device.id}</Text>
+  </Pressable>
+);
+
 export default function ListDevices({
   lastFoundDevice,
   deviceList,
@@ -27,21 +52,7 @@ export default function ListDevices({
   clearList,
   permissionGranted
 }: IScannerProps): JSX.Element {
-  const Item = ({ device }: { device: Device }) => (
-    <Pressable
-      onPress={() => {}}
-      style={({ pressed }) => [
-        {
-          backgroundColor: pressed ? "#7799FF" : "#66CCFF"
-        },
-        styles.item
-      ]}
-    >
-      <Text style={styles.title}>{device.name}</Text>
-      <Text style={styles.title}>{device.rssi}</Text>
-      <Text style={styles.title}>{device.id}</Text>
-    </Pressable>
-  );
+  const [scanning, setScanning] = React.useState(false);
 
   const renderItem = ({ item }: { item: Device }) => <Item device={item} />;
 
@@ -50,14 +61,22 @@ export default function ListDevices({
       {permissionGranted ? (
         <SafeAreaView style={styles.container}>
           <View style={styles.buttonContainer}>
-            <Button onPress={() => startScan()} title="Start scan" />
             <Button
               onPress={() => {
+                setScanning(true);
+                startScan();
+              }}
+              title="Start scan"
+            />
+            <Button
+              onPress={() => {
+                setScanning(false);
                 stopScan();
               }}
               title="Stop scan"
             />
             <Button onPress={() => clearList()} title="Clear list" />
+            {scanning === true && <ActivityIndicator />}
           </View>
 
           <Text>{`Last found device: ${lastFoundDevice}`}</Text>

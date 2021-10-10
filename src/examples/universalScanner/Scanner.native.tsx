@@ -6,9 +6,11 @@
  */
 
 import React, { useState, useEffect } from "react";
+import { Platform } from "react-native";
 
 import { BleManager, Device } from "react-native-ble-plx";
 import UiDevice from "../../../types/Bluetooth";
+import BluetoothPermission from "./BluetoothPermission.android";
 
 import ListDevices from "./ListDevices";
 
@@ -25,9 +27,10 @@ const getBleManager = () => {
 const manager = getBleManager();
 
 export default function Scanner(): JSX.Element {
+  const [permissionGranted, setPermissionGranted] = useState(false);
+
   const [list, setList] = useState<Device[]>([]);
-  const [name, setName] = useState("test");
-  // const [permissionGranted, setPermissionGranted] = useState(true);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     console.log("use effect");
@@ -42,33 +45,15 @@ export default function Scanner(): JSX.Element {
     });
   }, [manager]);
 
-  /* const getPermissionOnAndroid = async () => {
-     const granted = await PermissionsAndroid.request(
-       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-       {
-         title: "You need to allow location services to run this ...",
-         message: "This is mandatory",
-         buttonNeutral: "Ask Me Later",
-         buttonNegative: "I don't care",
-         buttonPositive: "Ok"
-       }
-     );
-     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-       console.log("Permission granted");
-       setPermissionGranted(true);
-     } else {
-       console.log("permission denied");
-       setPermissionGranted(false);
-     }
-   };
-
-   React.useEffect(() => {
-     if (Platform.OS === "android") {
-       (async () => {
-         await getPermissionOnAndroid();
-       })();
-     }
-   }, []); */
+  useEffect(() => {
+    console.log("granted ios");
+    if (Platform.OS === "android") {
+      BluetoothPermission({ setPermissionGranted });
+    } else {
+      console.log("granted ios");
+      setPermissionGranted(true);
+    }
+  }, []);
 
   const clear = () => {
     setList([]);
@@ -120,7 +105,7 @@ export default function Scanner(): JSX.Element {
       startScan={startScan}
       stopScan={stop}
       clearList={clear}
-      permissionGranted
+      permissionGranted={permissionGranted}
     />
   );
 }
