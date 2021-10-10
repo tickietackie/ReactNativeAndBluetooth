@@ -76,7 +76,7 @@ export default function ListDevices({
               title="Stop scan"
             />
             <Button onPress={() => clearList()} title="Clear list" />
-            {scanning === true && <ActivityIndicator />}
+            {scanning === true && <ActivityIndicator color="orange" />}
           </View>
 
           <Text>{`Last found device: ${lastFoundDevice}`}</Text>
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     marginTop: "2%",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    minWidth: 320
   },
   buttonContainer: {
     flexDirection: "row",
