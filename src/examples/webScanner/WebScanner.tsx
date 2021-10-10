@@ -23,13 +23,7 @@ import { decode, encode } from "base-64";
 
 import Loading from "../../helpers/IsLoading";
 
-type Device = {
-  id: String;
-  name: String;
-  txPower: Number;
-  RSSI: Number;
-  UUIDs: String[];
-};
+import Device from "../../../types/Bluetooth";
 
 const WebScanner = () => {
   const [list, setList] = useState<Device[]>([]);
@@ -95,9 +89,9 @@ const WebScanner = () => {
           const newDevice: Device = {
             id: event.device.id,
             name: event.device.name,
-            txPower: event.txPower,
-            RSSI: event.rssi,
-            UUIDs: event.uuids
+            txPowerLevel: event.txPower,
+            rssi: event.rssi,
+            serviceUUIDs: event.uuids
           };
           const alreadyInList = list.find((data) => data.id === newDevice.id);
           setName(event.device.name ? event.device.name : "Unamed");
@@ -162,6 +156,15 @@ const WebScanner = () => {
     // return loading screen, if data is loading
     return <Loading />;
   } */
+
+  // check if running in the web
+  if (Platform.OS !== "web") {
+    return (
+      <View style={styles.container}>
+        <Text>This only works in the web</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

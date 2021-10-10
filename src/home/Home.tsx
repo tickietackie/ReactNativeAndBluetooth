@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { StyleSheet, View, Text, Button, ScrollView } from "react-native";
+import { StyleSheet, View, Text, Button, ScrollView, Platform } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,40 +17,60 @@ const Home = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Pick a BLE example</Text>
       <ScrollView>
-        <Button
-          title="Toggle Arduino BLE's LED"
-          onPress={() => {
-            navigation.navigate("ToggleArduinoLed");
-          }}
-        />
-        <Button
-          title="Device Scanner - PLX BLE Library"
-          onPress={() => {
-            navigation.navigate("DeviceScannerPlxLibrary");
-          }}
-        />
-        <Button
-          title="Scanner - Web"
-          onPress={() => {
-            navigation.navigate("WebScanner");
-          }}
-        />
-        <Button
-          title="Device Scanner - Native"
-          onPress={() => {
-            navigation.navigate("NativeScanner");
-          }}
-        />
-        <Button
-          title="Device Connector - PLX BLE Library"
-          onPress={() => {
-            navigation.navigate("BleDeviceConnector");
-          }}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Toggle Arduino BLE's LED"
+            onPress={() => {
+              navigation.navigate("ToggleArduinoLed");
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Device Scanner - PLX BLE Library"
+            onPress={() => {
+              navigation.navigate("DeviceScannerPlxLibrary");
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Scanner - Web"
+            onPress={() => {
+              navigation.navigate("WebScanner");
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Device Scanner - Native"
+            onPress={() => {
+              navigation.navigate("NativeScanner");
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Device Connector - PLX BLE Library"
+            onPress={() => {
+              navigation.navigate("BleDeviceConnector");
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Universal Scanner (iOS, Android, Web)"
+            onPress={() => {
+              navigation.navigate("UniversalScanner");
+            }}
+          />
+        </View>
       </ScrollView>
     </View>
   );
 };
+
+const buttonMargin = Platform.OS === "ios" ? "0.5%" : "3%";
 
 const styles = StyleSheet.create({
   container: {
@@ -58,6 +78,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+  buttonContainer: {
+    marginVertical: buttonMargin
   },
   title: {
     margin: "3%",

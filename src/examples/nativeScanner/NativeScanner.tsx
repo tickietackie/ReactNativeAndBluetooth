@@ -20,15 +20,8 @@ import {
   NativeModules
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
-
-import { decode, encode } from "base-64";
 import Loading from "../../helpers/IsLoading";
-
-type Device = {
-  id: String;
-  name: String;
-};
+import Device from "../../../types/Bluetooth";
 
 const NativeScanner = () => {
   const [list, setList] = useState<Device[] | []>([]);
@@ -82,7 +75,7 @@ const NativeScanner = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (Platform.OS === "android") {
       (async () => {
         await getPermissionOnAndroid();

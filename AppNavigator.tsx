@@ -10,6 +10,7 @@ import DeviceConnector from "./src/examples/deviceConnector/ListDevices";
 import DeviceDetails from "./src/examples/deviceConnector/DeviceDetails";
 
 import WebScanner from "./src/examples/webScanner/WebScanner";
+import UniversalScanner from "./src/examples/universalScanner/Scanner";
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -23,6 +24,7 @@ function MainStackScreen() {
       <MainStack.Screen name="NativeScanner" component={NativeScanner} />
       <MainStack.Screen name="BleDeviceConnector" component={DeviceConnector} />
       <MainStack.Screen name="WebScanner" component={WebScanner} />
+      <MainStack.Screen name="UniversalScanner" component={UniversalScanner} />
     </MainStack.Navigator>
   );
 }
