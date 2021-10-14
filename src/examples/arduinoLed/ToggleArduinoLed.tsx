@@ -40,13 +40,13 @@ const connectToDevice = (device: Device) => {
   manager?.stopDeviceScan(); // stop scanning
   device
     .connect()
-    .then((conntectedDevice) => {
+    .then((connectedDevice) => {
       console.log("connected");
-      return conntectedDevice.discoverAllServicesAndCharacteristics();
+      return connectedDevice.discoverAllServicesAndCharacteristics();
     })
-    .then((conntectedDevice) => {
+    .then((connectedDevice) => {
       console.log("return services");
-      return conntectedDevice.services();
+      return connectedDevice.services();
     })
     .then((services) => {
       // console.log(services);
