@@ -1,10 +1,3 @@
-/**
- * BluetoothPermission.android.tsx
- * Handle Bluetooth permission on Android
- * For the web and iOS this is already handled by the platform APIs
- *
- */
-
 import { PermissionsAndroid } from "react-native";
 
 interface IBluetoothPermission {

@@ -4,6 +4,7 @@ type Device = {
   rssi: Number;
   txPowerLevel: Number;
   serviceUUIDs: String[];
+  appearance?: Number;
 };
 
 export default Device;

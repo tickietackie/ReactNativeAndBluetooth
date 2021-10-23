@@ -1,11 +1,4 @@
-/**
- * Sample BLE React Native App
- *
- * @format
- * @flow strict-local
- */
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,14 +7,8 @@ import {
   FlatList,
   Pressable,
   Button,
-  PermissionsAndroid,
-  Platform,
-  Alert
+  Platform
 } from "react-native";
-
-import { decode, encode } from "base-64";
-
-import Loading from "../../helpers/IsLoading";
 
 import Device from "../../../types/Bluetooth";
 
@@ -29,8 +16,6 @@ const WebScanner = () => {
   const [list, setList] = useState<Device[]>([]);
   const [name, setName] = useState("test");
   const [scan, setScan] = useState<any>(null);
-  // const navigation = useNavigation();
-  // const [isLoading, setIsLoading] = React.useState(false);
 
   const Item = ({ device }: { device: Device }) => (
     <Pressable
@@ -54,14 +39,11 @@ const WebScanner = () => {
 
   const stopScan = () => {
     try {
-      console.log("Stopping scan...");
       scan?.stop();
       setScan(null);
-      console.log(`Stopped.  scan.active = ${scan.active}`);
     } catch (error) {
       console.log(error);
     }
-    // setIsLoading(false);
   };
 
   const scanAndConnect = async () => {
@@ -72,18 +54,11 @@ const WebScanner = () => {
         return;
       }
       try {
-        // console.log(`Requesting Bluetooth Scan with options: ${JSON.stringify(options)}`);
         const awaitedScan = await (navigator as any).bluetooth.requestLEScan({
           acceptAllAdvertisements: true
         });
 
         setScan(awaitedScan);
-
-        console.log("Scan started with:");
-        console.log(` acceptAllAdvertisements: ${awaitedScan.acceptAllAdvertisements}`);
-        console.log(` active: ${awaitedScan.active}`);
-        console.log(` keepRepeatedDevices: ${awaitedScan.keepRepeatedDevices}`);
-        console.log(` filters: ${JSON.stringify(awaitedScan.filters)}`);
 
         (navigator as any).bluetooth.addEventListener("advertisementreceived", (event: any) => {
           const newDevice: Device = {
@@ -91,73 +66,25 @@ const WebScanner = () => {
             name: event.device.name,
             txPowerLevel: event.txPower,
             rssi: event.rssi,
-            serviceUUIDs: event.uuids,
-            appearance: event.appearance
+            serviceUUIDs: event.uuids
           };
           const alreadyInList = list.find((data) => data.id === newDevice.id);
           setName(event.device.name ? event.device.name : "Unamed");
           if (!alreadyInList) {
             list.push(newDevice);
             const newList = list;
-            console.log("Advertisement received new device not in list.");
-            console.log(`  Device Name: ${event.device.name}`);
-            console.log(`  Device ID: ${event.device.id}`);
-            console.log(`  RSSI: ${event.rssi}`);
-            console.log(`  TX Power: ${event.txPower}`);
-            console.log(`  UUIDs: ${event.uuids}`);
-            console.log(`  Appearance: ${event.appearance}`);
-            event.manufacturerData.forEach((valueDataView: any, key: any) => {
-              console.log("Manufacturer", key, valueDataView);
-            });
-            event.serviceData.forEach((valueDataView: any, key: any) => {
-              console.log("Service", key, valueDataView);
-            });
             setList(newList);
           }
         });
       } catch (error) {
         console.log(`Error: ${error}`);
       }
-
-      // request specific device
-
-      /* nav.bluetooth
-        .requestDevice({
-          acceptAllDevices: true
-        })
-        .then((device: any) => {
-          // Human-readable name of the device.
-          console.log(device.name);
-          console.log(device.);
-          alert(`Device name: ${device.name}\rDevice id: ${device.id}`);
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          console.log(error);
-          setIsLoading(false);
-        }); */
-      // setIsLoading(true);
-      /* setTimeout(() => {
-         NativeModules.BluetoothManager.getPeripherals((peripherals: any) => {
-          console.log("Got peripherals");
-          console.log(peripherals);
-          setList(peripherals);
-
-          setIsLoading(false);
-          NativeModules.BluetoothManager.stop();
-        });
-      }, 7000); */
     } catch (error: any) {
-      console.log(`Failed to execute native scan. ${error.message}`);
+      console.log(`Failed to execute device scan on web. ${error.message}`);
     }
   };
 
   const renderItem = ({ item }: { item: Device }) => <Item device={item} />;
-
-  /* if (isLoading === true) {
-    // return loading screen, if data is loading
-    return <Loading />;
-  } */
 
   // check if running in the web
   if (Platform.OS !== "web") {

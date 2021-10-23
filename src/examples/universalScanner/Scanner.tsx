@@ -1,16 +1,11 @@
 /**
- * Sample BLE React Native App
+ * Scanner.tsx
+ * Scan devices in the web
  *
- * @format
- * @flow strict-local
  */
 
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
 
-import { useNavigation } from "@react-navigation/native";
-
-import { BleManager, Device } from "react-native-ble-plx";
 import UiDevice from "../../../types/Bluetooth";
 
 import ListDevices from "./ListDevices";
@@ -32,7 +27,7 @@ export default function Scanner(): JSX.Element {
       console.log("Stopping scan...");
       scan?.stop();
       setScan(null);
-      console.log(`Stopped.  scan.active = ${scan.active}`);
+      console.log(`Stopped. scan.active = ${scan.active}`);
     } catch (error) {
       console.log(error);
     }
@@ -54,45 +49,29 @@ export default function Scanner(): JSX.Element {
 
         setScan(awaitedScan);
 
-        console.log("Scan started with:");
-        console.log(` acceptAllAdvertisements: ${awaitedScan.acceptAllAdvertisements}`);
-        console.log(` active: ${awaitedScan.active}`);
-        console.log(` keepRepeatedDevices: ${awaitedScan.keepRepeatedDevices}`);
-        console.log(` filters: ${JSON.stringify(awaitedScan.filters)}`);
-
         (navigator as any).bluetooth.addEventListener("advertisementreceived", (event: any) => {
           const newDevice: UiDevice = {
             id: event.device.id,
             name: event.device.name ? event.device.name : "Unamed",
             txPowerLevel: event.txPower,
             rssi: event.rssi,
-            serviceUUIDs: event.uuids
+            serviceUUIDs: event.uuids,
+            appearance: event.appearance
           };
           const alreadyInList = list.find((data) => data.id === newDevice.id);
           setName(event.device.name ? event.device.name : "Unamed");
           if (!alreadyInList) {
             list.push(newDevice);
             const newList = list;
-            console.log("Advertisement received new device not in list.");
-            console.log(`  Device Name: ${event.device.name}`);
-            console.log(`  Device ID: ${event.device.id}`);
-            console.log(`  RSSI: ${event.rssi}`);
-            console.log(`  TX Power: ${event.txPower}`);
-            console.log(`  UUIDs: ${event.uuids}`);
-            event.manufacturerData.forEach((valueDataView: any, key: any) => {
-              console.log("Manufacturer", key, valueDataView);
-            });
-            event.serviceData.forEach((valueDataView: any, key: any) => {
-              console.log("Service", key, valueDataView);
-            });
+
             setList(newList);
           }
         });
       } catch (error) {
-        console.log(`Argh! ${error}`);
+        console.log(`Error: ${error}`);
       }
     } catch (error: any) {
-      console.log(`Failed to execute native scan. ${error.message}`);
+      console.log(`Failed to execute web scan. ${error.message}`);
     }
   };
 

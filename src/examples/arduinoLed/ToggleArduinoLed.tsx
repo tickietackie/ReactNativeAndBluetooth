@@ -19,7 +19,7 @@ import {
   Alert
 } from "react-native";
 
-import { BleManager, Device } from "react-native-ble-plx";
+import { BleManager, Descriptor, Device } from "react-native-ble-plx";
 import { decode, encode } from "base-64";
 import Loading from "../../helpers/IsLoading";
 
@@ -53,27 +53,20 @@ const connectToDevice = (device: Device) => {
       console.log("return characteristics");
       return services[0].characteristics();
     })
-    .then((characteristics) => ({
-      readChar: characteristics[0].read(),
-      chars: characteristics
-    }))
-    .then((characteristicList) => {
+    .then((characteristics) => characteristics[0].read())
+    .then((characteristic) => {
       console.log("read value");
-      console.log(characteristicList.chars[0].value);
-      console.log(
-        decode(characteristicList.chars[0].value ? characteristicList.chars[0].value : "")
-      );
+      console.log(characteristic.value);
+      console.log(decode(characteristic.value ? characteristic.value : ""));
       console.log("write value");
-      if (
-        !characteristicList.chars[0].value ||
-        parseInt(decode(characteristicList.chars[0].value), 10) === 0
-      ) {
+      if (!characteristic.value || parseInt(decode(characteristic.value), 10) === 0) {
         console.log("write 1");
-        characteristicList.chars[0].writeWithResponse(encode("1"));
+        characteristic.writeWithResponse(encode("1"));
       } else {
         console.log("write 0");
-        characteristicList.chars[0].writeWithResponse(encode("0"));
+        characteristic.writeWithResponse(encode("0"));
       }
+      return characteristic.descriptors();
     })
     .catch((error) => {
       console.error(error);

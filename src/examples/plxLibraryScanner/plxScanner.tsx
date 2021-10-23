@@ -51,7 +51,6 @@ const Item = ({ device }: { device: Device }) => (
 
 const ScannerPlx = () => {
   const [isScanning, setIsScanning] = useState(false);
-  const peripherals = new Map();
   const [list, setList] = useState<Device[] | []>([]);
   const [name, setName] = useState("test");
   const [permissionGranted, setPermissionGranted] = useState(true);
@@ -119,7 +118,7 @@ const ScannerPlx = () => {
       const name = device && device.name ? device.name : "";
       const id = device && device.id;
       // const localName = device && device.localName ? device.localName : "";
-      const alreadyInList = list.find((data) => data.id == id);
+      const alreadyInList = list.find((data) => data.id === id);
       if (!alreadyInList && device) {
         const newList: Device[] = list;
         newList.push(device);
@@ -128,12 +127,12 @@ const ScannerPlx = () => {
       }
 
       /* if (device?.localName === 'LED') {
-         setName(name);
-         // Stop scanning as it's not necessary if you are scanning for one device.
-         manager?.stopDeviceScan();
+          setName(name);
+          // Stop scanning as it's not necessary if you are scanning for one device.
+          manager?.stopDeviceScan();
 
-         // Proceed with connection.
-       } */
+          // Proceed with connection.
+        } */
     });
   };
 

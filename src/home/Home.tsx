@@ -35,17 +35,17 @@ const Home = () => {
         </View>
         <View style={styles.buttonContainer}>
           <Button
-            title="Scanner - Web"
+            title="Device Scanner - Native"
             onPress={() => {
-              navigation.navigate("WebScanner");
+              navigation.navigate("NativeScanner");
             }}
           />
         </View>
         <View style={styles.buttonContainer}>
           <Button
-            title="Device Scanner - Native"
+            title="Scanner - Web"
             onPress={() => {
-              navigation.navigate("NativeScanner");
+              navigation.navigate("WebScanner");
             }}
           />
         </View>
@@ -62,6 +62,14 @@ const Home = () => {
             title="Universal Scanner (iOS, Android, Web)"
             onPress={() => {
               navigation.navigate("UniversalScanner");
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Universal Scanner PLX"
+            onPress={() => {
+              navigation.navigate("UniversalPlxScanner");
             }}
           />
         </View>

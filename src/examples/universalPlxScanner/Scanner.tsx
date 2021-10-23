@@ -1,9 +1,3 @@
-/**
- * Scanner.native.tsx
- * Scanning on Android and iOS with plx
- *
- */
-
 import React, { useState, useEffect } from "react";
 import { Platform } from "react-native";
 
@@ -86,6 +80,14 @@ export default function Scanner(): JSX.Element {
         setList(newList);
         setName(deviceName);
       }
+
+      /* if (device?.localName === 'LED') {
+                 setName(name);
+                 // Stop scanning as it's not necessary if you are scanning for one device.
+                 manager?.stopDeviceScan();
+
+                 // Proceed with connection.
+               } */
     });
   };
 

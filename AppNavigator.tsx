@@ -1,6 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { View } from "react-native";
 import Home from "./src/home/Home";
 
 import NativeScanner from "./src/examples/nativeScanner/NativeScanner";
@@ -11,6 +12,7 @@ import DeviceDetails from "./src/examples/deviceConnector/DeviceDetails";
 
 import WebScanner from "./src/examples/webScanner/WebScanner";
 import UniversalScanner from "./src/examples/universalScanner/Scanner";
+import UniversalPlxScanner from "./src/examples/universalPlxScanner/Scanner";
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -25,6 +27,7 @@ function MainStackScreen() {
       <MainStack.Screen name="BleDeviceConnector" component={DeviceConnector} />
       <MainStack.Screen name="WebScanner" component={WebScanner} />
       <MainStack.Screen name="UniversalScanner" component={UniversalScanner} />
+      <MainStack.Screen name="UniversalPlxScanner" component={UniversalPlxScanner} />
     </MainStack.Navigator>
   );
 }

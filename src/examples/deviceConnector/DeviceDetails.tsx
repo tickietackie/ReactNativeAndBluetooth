@@ -14,7 +14,7 @@ import {
 import { useNavigation, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 
-import { Device, BleManager, Service, Characteristic } from "react-native-ble-plx";
+import { Device, BleManager, Service, Characteristic, Descriptor } from "react-native-ble-plx";
 import { decode, encode } from "base-64";
 import { ScrollView } from "react-native-gesture-handler";
 import { uuidToString } from "../../helpers/constants";
@@ -104,19 +104,21 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
           const promises = characteristics.map(
             async (characteristic) =>
               new Promise(async (resolve, reject) => {
+                console.log("await descriptor read");
                 const descriptors = await getDescriptors(characteristic).catch((error) =>
                   console.log(error)
                 );
-                characteristic.isReadable
-                  ? await characteristic.read().catch((error) => console.log(error))
-                  : null;
-                console.log("got descriptor promis");
+                console.log("await value read");
+
+                let value: any = "";
+                if (characteristic.isReadable) {
+                  value = await readCharValue(characteristic);
+                }
+                console.log(`push char, value: ${value}`);
                 const uiChar = {
                   id: characteristic.id,
                   uuid: characteristic.uuid,
-                  value: characteristic.value
-                    ? `${decode(characteristic.value)} (${characteristic.value})`
-                    : null,
+                  value: value ? `${decode(value)} (${value})` : null,
                   isIndicatable: characteristic.isIndicatable,
                   isNotifiable: characteristic.isNotifiable,
                   isNotifying: characteristic.isNotifying,
@@ -136,31 +138,76 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
       resolve(uiCharacteristics);
     });
 
+  const readCharValue = async (characteristic: Characteristic) =>
+    new Promise(async (resolve, reject) => {
+      let value: any = "";
+      console.log("get value");
+      await characteristic
+        .read()
+        .then(async (characteristicWithValue) => {
+          value = characteristicWithValue.value;
+          console.log(`Fetched value ${value} (${encode(value)})`);
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+      console.log("return char value");
+
+      resolve(value);
+    });
+
   const getDescriptors = async (characteristic: Characteristic) =>
-    new Promise((resolve, reject) => {
-      resolve("test");
-      const uiDescriptors: any = [];
-      console.log("get descriptors");
-      characteristic
+    new Promise(async (resolve, reject) => {
+      // console.log('get chars');
+      // resolve('test');
+
+      const uiCharacteristics: any = await characteristic
         .descriptors()
         .then(async (descriptors) => {
-          console.log(`Fetched ${descriptors.length} descriptor/s`);
-          descriptors.forEach(async (descriptor) => {
-            console.log(`Fetch characteristic for service with id ${descriptor.id}`);
-            const uiDescriptor = {
-              id: descriptor.id,
-              uuid: descriptor.uuid,
-              value: descriptor.value
-            };
-            console.log("push ui service to service array:");
-            console.log(uiDescriptor);
-            uiDescriptors.push(uiDescriptor);
-          });
-        })
-        .catch((error) => console.log(error));
-      console.log("return descriptors");
+          console.log(`Fetched ${characteristics.length} characteristic/s`);
 
-      resolve(uiDescriptors);
+          const promises = descriptors.map(
+            async (descriptor) =>
+              new Promise(async (resolve, reject) => {
+                console.log(
+                  `Fetch descriptor ${descriptor.id} for char with id ${descriptor.characteristicUUID}`
+                );
+                const value: any = await readDescriptorValue(descriptor);
+                const uiDescriptor = {
+                  id: descriptor.id,
+                  uuid: descriptor.uuid,
+                  value: value ? `${decode(value)} (${value})` : null
+                };
+                console.log("push ui descriptor to descriptors array:");
+                console.log(uiDescriptor);
+                resolve(uiDescriptor);
+              })
+          );
+          const fetchedDescriptors = await Promise.all(promises);
+          resolve(fetchedDescriptors);
+        });
+      console.log("return chars");
+      resolve(uiCharacteristics);
+    });
+
+  const readDescriptorValue = async (descriptor: Descriptor) =>
+    new Promise(async (resolve, reject) => {
+      let value: any = "";
+      console.log("get value");
+      await descriptor
+        .read()
+        .then(async (descriptorWithValue) => {
+          value = descriptorWithValue.value;
+          console.log(`Fetched value ${value} (${encode(value)})`);
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+      console.log("return descriptor value");
+
+      resolve(value);
     });
 
   const connect = () => {
@@ -199,9 +246,9 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
             margin: "1%"
           }}
         >
-          <Text
-            style={{ fontSize: 16, paddingHorizontal: "1%" }}
-          >{`Service #${serviceCounter}`}</Text>
+          <Text style={{ fontSize: 16, paddingHorizontal: "1%" }}>
+            {`Service #${serviceCounter}`}
+          </Text>
           <View style={{ paddingHorizontal: "2%" }}>
             <Text style={styles.text}>{`Id: ${service.id}`}</Text>
             <Text style={styles.text}>{`UUID: ${service.uuid}`}</Text>
@@ -265,9 +312,9 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
             margin: "1%"
           }}
         >
-          <Text
-            style={{ fontSize: 13, marginLeft: "1%" }}
-          >{`Characteristic #${characteristicCounter}`}</Text>
+          <Text style={{ fontSize: 13, marginLeft: "1%" }}>
+            {`Characteristic #${characteristicCounter}`}
+          </Text>
           <View
             style={{
               alignSelf: "flex-start",
@@ -301,8 +348,7 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
                 alignSelf: "flex-start",
                 alignItems: "center",
                 flexDirection: "row",
-                justifyContent: "center",
-                minWidth: "100%"
+                justifyContent: "center"
               }}
             >
               <Text style={styles.text}>Is notifiable:</Text>
@@ -381,14 +427,62 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
                 style={{ width: 15, height: 15 }}
               />
             </View>
+            {characteristic.descriptors && characteristic.descriptors.length !== 0 ? (
+              buildDescriptorsUi(characteristic.descriptors)
+            ) : (
+              <View />
+            )}
           </View>
         </View>
       );
-      characteristicCounter++;
+      characteristicCounter += 1;
       // })
     });
 
     return characteristicUi;
+  };
+
+  const buildDescriptorsUi = (descriptors: any) => {
+    const descriptorUi: any = [];
+    let descriptorCounter = 0;
+    descriptors.forEach((descriptor: any) => {
+      console.log(`Build ui for descriptor with id ${descriptor.id} `);
+
+      // promise.then(() => {
+      console.log(`Add descriptor ui with id ${descriptor.id} to array`);
+      descriptorUi.push(
+        <View
+          key={descriptor.id}
+          style={{
+            alignSelf: "flex-start",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            margin: "2%"
+          }}
+        >
+          <Text style={{ fontSize: 13, marginLeft: "2%" }}>
+            {`Descriptors #${descriptorCounter}`}
+          </Text>
+          <View
+            style={{
+              alignSelf: "flex-start",
+              alignItems: "flex-start",
+              marginLeft: "2%"
+            }}
+          >
+            <Text style={styles.text}>{`UUID: ${descriptor.uuid}`}</Text>
+            {descriptor.uuid ? (
+              <Text style={styles.text}>{`Name: ${uuidToString(descriptor.uuid)}`}</Text>
+            ) : null}
+            <Text style={styles.text}>{`Value: ${descriptor.value}`}</Text>
+          </View>
+        </View>
+      );
+      descriptorCounter += 1;
+      // })
+    });
+
+    return descriptorUi;
   };
 
   const ui = buildServiceUi();
@@ -438,7 +532,18 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
               </Text>
               <Text style={styles.text}>{`rssi: ${device.rssi}`}</Text>
               <Text style={styles.text}>{`service data: ${device.serviceData}`}</Text>
-              <Text style={styles.text}>{`service uuids: ${device.serviceUUIDs?.join(", ")}`}</Text>
+              <Text style={styles.text}>
+                {`service uuids: [${device?.serviceUUIDs ? device.serviceUUIDs?.join(", ") : ""}]`}
+              </Text>
+              <Text style={styles.text}>
+                {`service uuids: [${
+                  device?.serviceUUIDs
+                    ? device.serviceUUIDs
+                        ?.map((data) => (uuidToString(data) ? uuidToString(data) : data))
+                        .join(", ")
+                    : ""
+                }]`}
+              </Text>
               <Text style={styles.text}>{`Tx power level: ${device.txPowerLevel}`}</Text>
               <Text style={styles.text}>{`MTU: ${device.mtu}`}</Text>
 

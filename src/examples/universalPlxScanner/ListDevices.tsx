@@ -1,8 +1,8 @@
 /**
- * ListDevices.tsx
- * Show the devices scanned as a flat list, platform independent
+ * Sample BLE React Native App
  *
- *
+ * @format
+ * @flow strict-local
  */
 
 import React from "react";
