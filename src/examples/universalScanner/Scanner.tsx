@@ -44,6 +44,7 @@ export default function Scanner(): JSX.Element {
       try {
         // console.log(`Requesting Bluetooth Scan with options: ${JSON.stringify(options)}`);
         const awaitedScan = await (navigator as any).bluetooth.requestLEScan({
+          filter: [],
           acceptAllAdvertisements: true
         });
 

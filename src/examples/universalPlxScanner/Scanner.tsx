@@ -39,12 +39,14 @@ export default function Scanner(): JSX.Element {
   }, [manager]);
 
   useEffect(() => {
-    console.log("granted ios");
     if (Platform.OS === "android") {
       BluetoothPermission({ setPermissionGranted });
-    } else {
-      console.log("granted ios");
+    } else if (Platform.OS === "ios") {
       setPermissionGranted(true);
+      console.log("granted ios");
+    } else if (Platform.OS === "web") {
+      setPermissionGranted(true);
+      console.log("Permissions for web will be granted on click by the user itself.");
     }
   }, []);
 
