@@ -1,7 +1,6 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View } from "react-native";
 import Home from "./src/home/Home";
 
 import NativeScanner from "./src/examples/nativeScanner/NativeScanner";
@@ -13,6 +12,7 @@ import DeviceDetails from "./src/examples/deviceConnector/DeviceDetails";
 import WebScanner from "./src/examples/webScanner/WebScanner";
 import UniversalScanner from "./src/examples/universalScanner/Scanner";
 import UniversalPlxScanner from "./src/examples/universalPlxScanner/Scanner";
+import UniversalToggleArduinoLed from "./src/examples/universalArduinoLedPlx/ToggleArduinoLed";
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -28,6 +28,7 @@ function MainStackScreen() {
       <MainStack.Screen name="WebScanner" component={WebScanner} />
       <MainStack.Screen name="UniversalScanner" component={UniversalScanner} />
       <MainStack.Screen name="UniversalPlxScanner" component={UniversalPlxScanner} />
+      <MainStack.Screen name="UniversalToggleArduinoLedPlx" component={UniversalToggleArduinoLed} />
     </MainStack.Navigator>
   );
 }

@@ -526,7 +526,7 @@ const DeviceDetails = ({ navigation, route }: Props): JSX.Element => {
               <Text style={styles.text}>{`Name: ${device.name}`}</Text>
               <Text style={styles.text}>{`Local name: ${device.localName}`}</Text>
               <Text style={styles.text}>
-                {`manufacturer data: ${decode(
+                {`manufacturer data: (${device.manufacturerData}) ${decode(
                   device.manufacturerData ? device.manufacturerData : ""
                 )}`}
               </Text>

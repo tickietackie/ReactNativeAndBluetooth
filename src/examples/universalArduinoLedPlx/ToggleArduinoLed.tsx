@@ -5,22 +5,21 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import {
   SafeAreaView,
   StyleSheet,
   View,
   Text,
-  FlatList,
-  Pressable,
   Button,
   PermissionsAndroid,
   Platform,
   Alert
 } from "react-native";
 
-import { BleManager, Descriptor, Device } from "react-native-ble-plx";
+import { BleManager, Device } from "react-native-ble-plx";
 import { decode, encode } from "base-64";
+import { useFocusEffect } from "@react-navigation/native";
 import Loading from "../../helpers/IsLoading";
 
 const getBleManager = () => {
@@ -36,7 +35,7 @@ const getBleManager = () => {
 const manager = getBleManager();
 // const manager? = new BleManager();
 
-const connectToDevice = (device: Device) => {
+const connectToDevice = (device: Device, setLedStatus: Dispatch<SetStateAction<boolean>>) => {
   manager?.stopDeviceScan(); // stop scanning
   device
     .connect()
@@ -53,7 +52,48 @@ const connectToDevice = (device: Device) => {
       console.log("return characteristics");
       return services[0].characteristics();
     })
-    .then((characteristics) => characteristics[0].read())
+    .then((characteristics) => {
+      console.log("tst");
+      return characteristics[0].read();
+    })
+    .then((characteristic) => {
+      console.log("read value");
+      console.log(characteristic.value);
+      console.log(decode(characteristic.value ? characteristic.value : ""));
+      console.log("write value");
+      if (!characteristic.value || parseInt(decode(characteristic.value), 10) === 0) {
+        setLedStatus(false);
+      } else {
+        setLedStatus(true);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      Alert.alert("Fehler", error.message);
+    });
+};
+
+const toggle = (device: Device, setLedStatus: Dispatch<SetStateAction<boolean>>) => {
+  manager?.stopDeviceScan(); // stop scanning
+  device
+    .connect()
+    .then((connectedDevice) => {
+      console.log("connected");
+      return connectedDevice.discoverAllServicesAndCharacteristics();
+    })
+    .then((connectedDevice) => {
+      console.log("return services");
+      return connectedDevice.services();
+    })
+    .then((services) => {
+      // console.log(services);
+      console.log("return characteristics");
+      return services[0].characteristics();
+    })
+    .then((characteristics) => {
+      console.log("tst");
+      return characteristics[0].read();
+    })
     .then((characteristic) => {
       console.log("read value");
       console.log(characteristic.value);
@@ -62,9 +102,11 @@ const connectToDevice = (device: Device) => {
       if (!characteristic.value || parseInt(decode(characteristic.value), 10) === 0) {
         console.log("write 1");
         characteristic.writeWithResponse(encode("1"));
+        setLedStatus(true);
       } else {
         console.log("write 0");
         characteristic.writeWithResponse(encode("0"));
+        setLedStatus(false);
       }
     })
     .catch((error) => {
@@ -75,15 +117,33 @@ const connectToDevice = (device: Device) => {
 
 const ToggleArduinoLed = () => {
   const [isScanning, setIsScanning] = useState(false);
+  const [ledStatus, setLedStatus] = useState(false);
   const [list, setList] = useState<Device[] | []>([]);
   const [name, setName] = useState("test");
   const [arduinoFound, setArduinoFound] = useState<Device | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(true);
 
-  // console.log("counter:")
-  // console.log(NativeModules.Counter)
-  // console.log(Torch)
-  // NativeModules.Counter.increment()
+  useFocusEffect(
+    React.useCallback(
+      () =>
+        // Do something when the screen is focused
+        () => {
+          // Do something when the screen is unfocused
+          console.log("cancel connection with device");
+          arduinoFound?.cancelConnection();
+        },
+      []
+    )
+  );
+
+  const disconnect = () => {
+    arduinoFound
+      ?.cancelConnection()
+      .then(() => {
+        setArduinoFound(null);
+      })
+      .catch(() => alert("Failed to disconnect!"));
+  };
 
   React.useEffect(() => {
     console.log("use effect");
@@ -158,9 +218,10 @@ const ToggleArduinoLed = () => {
           setName(deviceName);
         }
 
-        if (device?.localName === "LED" || device?.name === "LED") {
+        if (device?.localName === "LED" || device?.name === "LED" || device?.name === "Arduino") {
           setArduinoFound(device);
           setIsScanning(false);
+          connectToDevice(device, setLedStatus);
           console.log("found device");
           // Stop scanning as it's not necessary if you are scanning for one device.
           manager?.stopDeviceScan();
@@ -170,27 +231,33 @@ const ToggleArduinoLed = () => {
     }
   };
 
-  const title = !isScanning ? "Search for Arduino" : "Stop search";
+  const title = isScanning ? "Stop search" : arduinoFound ? "Disconnect" : "Search for Arduino";
 
   return (
     <View style={styles.container}>
       {permissionGranted ? (
         <SafeAreaView style={styles.safeAreaContainer}>
           <View style={styles.buttonContainer}>
-            <Button onPress={() => scanAndConnect()} title={title} />
+            <Button
+              onPress={() => (arduinoFound ? disconnect() : scanAndConnect())}
+              title={title}
+            />
           </View>
           <Text>{`Last found device: ${name}`}</Text>
 
           {isScanning ? (
             <Loading />
           ) : arduinoFound ? (
-            <View>
-              <Button
-                title="Toggle LED"
-                onPress={() => {
-                  connectToDevice(arduinoFound);
-                }}
-              />
+            <View style={styles.foundContainer}>
+              <View>
+                <Button
+                  title="Toggle LED"
+                  onPress={() => {
+                    toggle(arduinoFound, setLedStatus);
+                  }}
+                />
+              </View>
+              <View style={[styles.circle, { backgroundColor: ledStatus ? "green" : "white" }]} />
             </View>
           ) : (
             <View style={(styles.safeAreaContainer, styles.foundContainer)}>
@@ -219,9 +286,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   foundContainer: {
+    marginTop: "20%",
     alignSelf: "center",
-    justifyContent: "center",
-    minHeight: "50%"
+    justifyContent: "center"
   },
   buttonContainer: {
     flexDirection: "row",
@@ -246,6 +313,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 12
+  },
+  circle: {
+    marginTop: 20,
+    width: 100,
+    height: 100,
+    borderRadius: 100 / 2
   }
 });
 

@@ -67,9 +67,17 @@ const Home = () => {
         </View>
         <View style={styles.buttonContainer}>
           <Button
-            title="Universal Scanner PLX"
+            title="Universal Scanner - PLX BLE Library Prototype"
             onPress={() => {
               navigation.navigate("UniversalPlxScanner");
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Universal Arduino Led Toggle - PLX BLE Library Prototype"
+            onPress={() => {
+              navigation.navigate("UniversalToggleArduinoLedPlx");
             }}
           />
         </View>
