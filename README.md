@@ -59,7 +59,7 @@ To use the library on iOS we need to do the following steps:
 
 The following code scans for bluetooth devices nearby and displays them in a list with its name, device id and rssi
 
-```
+```javascript
 /**
  * Sample BLE React Native App
  *
