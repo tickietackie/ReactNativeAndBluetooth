@@ -18,7 +18,7 @@ https://docs.expo.io/bare/exploring-bare-workflow/
 
 We will create a completely new project:
 
-```
+```javascript
 # If you don't have expo-cli yet, get it
 npm i -g expo-cli
 Expo init # choose typescript, we will use it and pick a name
